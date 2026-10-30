@@ -4,9 +4,9 @@ import { AREA_DISPLAY } from './coordinate-research-data.js';
 import { ARTWORKS } from './artworks.js';
 import { GUIDES, GUIDES_CHECKED_ON, KINDS, MANNERS } from './spot-guides.js';
 import { THEMES, selectSpots, validateSnapshot } from './model.js';
-const NAGAYA_ID='407e3a043cef81b5b765ed86e8b9b6e3';
+const NAGAYA_ID='407e3a043cef81b5b765ed86e8b9b6e3',NEAR_METERS=5000;
 const $=id=>document.getElementById(id);
-const state={data:null,selected:null,map:null,markers:new Map(),areas:new Map(),tiles:null,view:'map',location:null,locationCircle:null,locationRequest:0,loading:false,tileFailed:false};
+const state={data:null,selected:null,map:null,markers:new Map(),areas:new Map(),here:null,tiles:null,view:'map',location:null,locationCircle:null,locationRequest:0,loading:false,tileFailed:false};
 function node(tag,text,className) { const el=document.createElement(tag); if(text!==undefined)el.textContent=text; if(className)el.className=className; return el; }
 // Stable pin label shared by the list card and the map pin: the official course number or enlarged-map letter.
 function pinLabel(spot){
@@ -15,21 +15,24 @@ function pinLabel(spot){
   return m?m[1]:'周';
 }
 // Straight-line distance from the nagaya (the map's starting point), shown so visitors can judge a detour.
-function metersFromNagaya(spot){
-  const base=OWNER_ADDRESS_POINTS[NAGAYA_ID]?.coordinates,c=spot.coordinates;
-  if(!base||!c)return null;
-  const r=Math.PI/180,h=Math.sin((c.lat-base.lat)*r/2)**2+Math.cos(base.lat*r)*Math.cos(c.lat*r)*Math.sin((c.lng-base.lng)*r/2)**2;
+function meters(a,c){
+  const r=Math.PI/180,h=Math.sin((c.lat-a.lat)*r/2)**2+Math.cos(a.lat*r)*Math.cos(c.lat*r)*Math.sin((c.lng-a.lng)*r/2)**2;
   return 12742000*Math.asin(Math.sqrt(h));
 }
+// Distances are measured from the visitor's position once they share it, otherwise from the nagaya.
+function origin(){return state.here??OWNER_ADDRESS_POINTS[NAGAYA_ID]?.coordinates;}
+function spotPoint(spot){return spot.coordinates??(AREA_DISPLAY[spot.id]?.type==='point'?AREA_DISPLAY[spot.id].coordinates:null);}
+function metersFromOrigin(spot){const o=origin(),c=spotPoint(spot);return o&&c?meters(o,c):null;}
 function fromNagaya(spot){
-  const m=metersFromNagaya(spot);if(m===null||spot.id===NAGAYA_ID)return '';
-  return '長屋から直線 約'+(m<1000?`${Math.max(50,Math.round(m/50)*50)}m`:`${(m/1000).toFixed(1)}km`);
+  const m=metersFromOrigin(spot);if(m===null||(!state.here&&spot.id===NAGAYA_ID)||!spot.coordinates)return '';
+  return (state.here?'現在地から直線 約':'長屋から直線 約')+(m<1000?`${Math.max(50,Math.round(m/50)*50)}m`:`${(m/1000).toFixed(1)}km`);
 }
 // List order for someone leaving the nagaya: the nagaya, its own 百人町 streets, then nearest first.
+// After 現在地 is shared, simply nearest to the visitor first.
 // The 白壁・主税・橦木 district (no single point) goes just before its first building.
 const HYAKUNINCHO_AREA='407e3a043cef8178b6c6fc6de1193c6b',SHIRAKABE_AREA='407e3a043cef81908bfbec8cb6bf1a75';
 function walkOrder(spots){
-  const rank=s=>s.id===NAGAYA_ID?-2:s.id===HYAKUNINCHO_AREA?-1:metersFromNagaya(s)??Infinity;
+  const rank=s=>state.here?metersFromOrigin(s)??Infinity:s.id===NAGAYA_ID?-2:s.id===HYAKUNINCHO_AREA?-1:metersFromOrigin(s)??Infinity;
   const sorted=spots.filter(s=>s.id!==SHIRAKABE_AREA).sort((a,b)=>rank(a)-rank(b));
   const district=spots.find(s=>s.id===SHIRAKABE_AREA);
   if(district){const i=sorted.findIndex(s=>s.area===district.area);sorted.splice(i<0?sorted.length:i,0,district);}
@@ -169,14 +172,16 @@ function showTiles(){
   state.tiles.on('tileerror',()=>{state.tileFailed=true;$('map-status').textContent='背景地図を読み込めませんでした。ピンと一覧はそのまま使えます。';});
   state.tiles.addTo(state.map);
 }
-function fitPins(){
+// The first fit is instant: an animated zoom still running would override an early 現在地へ移動.
+function fitPins(animate=true){
   if(!state.map)return;const points=visibleSpots().filter(s=>s.coordinates).map(s=>[s.coordinates.lat,s.coordinates.lng]);
-  if(points.length)state.map.fitBounds(points,{padding:[40,40],maxZoom:16});else state.map.setView([35.183,136.926],14);mapMessage();
+  if(points.length)state.map.fitBounds(points,{padding:[40,40],maxZoom:16,animate});else state.map.setView([35.183,136.926],14,{animate});mapMessage();
 }
-$('fit').addEventListener('click',fitPins);
+$('fit').addEventListener('click',()=>fitPins());
 function clearLocation(){
-  state.locationRequest++;state.location?.remove();state.locationCircle?.remove();state.location=null;state.locationCircle=null;
-  $('clear-location').hidden=true;$('locate').disabled=false;$('location-status').textContent='現在地を消しました。';
+  state.locationRequest++;state.location?.remove();state.locationCircle?.remove();state.location=null;state.locationCircle=null;state.here=null;
+  $('clear-location').hidden=true;$('locate').disabled=false;$('location-status').textContent='現在地を消しました。一覧は長屋から近い順に戻りました。';
+  if(state.data)render();
 }
 $('clear-location').addEventListener('click',clearLocation);
 $('locate').addEventListener('click',()=>{
@@ -191,8 +196,13 @@ $('locate').addEventListener('click',()=>{
     state.location?.remove();state.locationCircle?.remove();
     state.location=L.circleMarker([lat,lng],{radius:8,color:'#fffefa',weight:3,fillColor:'#286fc0',fillOpacity:1}).addTo(state.map).bindTooltip('現在地');
     if(Number.isFinite(accuracy)&&accuracy>=0)state.locationCircle=L.circle([lat,lng],{radius:Math.min(accuracy,10000),color:'#286fc0',weight:1,fillOpacity:.08,interactive:false}).addTo(state.map);
-    // Never center or zoom to the device position: tile requests must not encode it.
-    $('location-status').textContent=state.map.getBounds().contains([lat,lng])?'現在地を青い丸で表示しました（まわりの円は誤差の目安）。':'現在地は、いま表示している地図の外にあります。';
+    // Move to the visitor only when they are around the map's area; far away, keep the map and say so.
+    const nagaya=OWNER_ADDRESS_POINTS[NAGAYA_ID].coordinates;
+    if(meters(nagaya,{lat,lng})<=NEAR_METERS){
+      state.here={lat,lng};state.map.invalidateSize({pan:false});state.map.setView([lat,lng],Math.max(state.map.getZoom(),16),{animate:false});
+      if(state.data)render();
+      $('location-status').textContent='現在地へ移動しました。一覧を現在地から近い順に並べ替えました。';
+    }else $('location-status').textContent='現在地がこの地図の範囲から離れているため、地図は動かしていません。';
   },error=>{
     if(request!==state.locationRequest)return;
     $('locate').disabled=false;$('clear-location').hidden=!state.location;
@@ -212,7 +222,7 @@ async function reload(){
     }
     const keepDetail=$('detail').open&&state.selected,first=!state.data;
     state.data=data;render();
-    if(first)fitPins();
+    if(first)fitPins(false);
     if(keepDetail&&state.selected)select(state.selected,'reload');
     // Success is announced to screen readers only; the retry button appears only after a failure.
     $('load-status').textContent=`${data.spots.length} か所を読み込みました。`;$('load-status').classList.add('quiet');$('reload').hidden=true;

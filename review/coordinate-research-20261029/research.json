@@ -1,0 +1,1383 @@
+{
+ "formatVersion": 1,
+ "checkedOn": "2026-10-29",
+ "canonical": "Notion 勝手に百人町マップスポットDB（collection://16c7c12b-396e-4de5-b55a-36fe7c44c07b）。この調査ではNotionを書き換えていない。",
+ "rule": "ピンを出す条件：(1)公式・公的資料で施設を同定、(2)OpenStreetMapの名前付き地物と、独立した別系統（Googleの施設ピン）の位置が一致（建物は50m以内、徳川園・名古屋城のような広い施設は100m以内）、(3)公式拡大図の配置と矛盾しない。ピン座標はOSMの値を使う（Google・Aichi Now・国土地理院は照合のみ）。Aichi NowはGoogleと同系統として数える。国土地理院の住所検索は白壁・主税町・橦木町・筒井町では丁目代表点しか返さないため位置照合の根拠にしない。入口を確認できた地点は0件で、ピンはすべて施設の代表位置。",
+ "spots": [
+  {
+   "id": "407e3a043cef810091d7cee0bd906bb8",
+   "name": "金城学院高等学校榮光館",
+   "status": "candidate",
+   "precision": null,
+   "official": {
+    "address": "名古屋市東区白壁四丁目64番地",
+    "sources": [
+     "https://www.city.nagoya.jp/kankou/kankouinfo/1013766/1013962/1034452/1013996.html"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「榮光館」（住所表示：白壁4丁目64-64）",
+     "url": null,
+     "lat": 35.1829944,
+     "lng": 136.9184552
+    },
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM way/197599057「私立金城学院高等学校（敷地全体）」",
+     "url": "https://www.openstreetmap.org/way/197599057",
+     "lat": 35.183019,
+     "lng": 136.918794
+    }
+   ],
+   "note": "OSMは学校敷地のみで、榮光館の建物は未登録。学校敷地内のため立入・撮影は学校の条件次第。",
+   "question": "榮光館の位置はこの候補で合っていますか。学校敷地内の建物にピンを出してよいですか（校門を目印にする案もあります）。",
+   "checkedOn": "2026-10-29",
+   "pin": null,
+   "candidateSpreadMeters": 31
+  },
+  {
+   "id": "407e3a043cef81078526d95c5803e78a",
+   "name": "旧春田鉄次郎邸",
+   "status": "confirmed",
+   "precision": "representative",
+   "official": {
+    "address": "名古屋市東区主税町3丁目6-2",
+    "sources": [
+     "https://www.aichinow.pref.aichi.jp/spots/detail/2418/",
+     "https://www.nagoya-info.jp/spot/detail/60/"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM way/1120554593「旧春田鉄次郎邸」",
+     "url": "https://www.openstreetmap.org/way/1120554593",
+     "lat": 35.181343,
+     "lng": 136.915807
+    },
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「旧春田鉄次郎邸」（住所表示：主税町3丁目6-2）",
+     "url": null,
+     "lat": 35.181374,
+     "lng": 136.9157621
+    },
+    {
+     "lineage": "Google",
+     "label": "Aichi Now（愛知県公式観光サイト）spot 2418 の登録点（Google地図系の値のため独立源に数えない）",
+     "url": "https://www.aichinow.pref.aichi.jp/spots/detail/2418/",
+     "lat": 35.18133,
+     "lng": 136.91577
+    },
+    {
+     "lineage": "GSI",
+     "label": "国土地理院 住所検索「主税町三丁目6番地」（丁目代表点のみ）",
+     "url": null,
+     "lat": 35.181335,
+     "lng": 136.915222
+    }
+   ],
+   "note": "",
+   "question": null,
+   "checkedOn": "2026-10-29",
+   "pin": {
+    "lat": 35.181343,
+    "lng": 136.915807,
+    "from": "OSM way/1120554593「旧春田鉄次郎邸」",
+    "url": "https://www.openstreetmap.org/way/1120554593"
+   },
+   "agreement": [
+    {
+     "with": "Googleマップの施設ピン「旧春田鉄次郎邸」（住所表示：主税町3丁目6-2）",
+     "meters": 5
+    },
+    {
+     "with": "Aichi Now（愛知県公式観光サイト）spot 2418 の登録点（Google地図系の値のため独立源に数えない）",
+     "meters": 4
+    },
+    {
+     "with": "国土地理院 住所検索「主税町三丁目6番地」（丁目代表点のみ）",
+     "meters": 53
+    }
+   ],
+   "independentAgreementMeters": 5,
+   "siteScale": "building"
+  },
+  {
+   "id": "407e3a043cef81139f9df6aaf1d15993",
+   "name": "徳川園",
+   "status": "confirmed",
+   "precision": "representative",
+   "official": {
+    "address": "名古屋市東区徳川町1001",
+    "sources": [
+     "https://www.city.nagoya.jp/kurashi/douro/1014853/1014854/1014865.html",
+     "https://www.aichinow.pref.aichi.jp/spots/detail/9/"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM way/48179151「徳川園」",
+     "url": "https://www.openstreetmap.org/way/48179151",
+     "lat": 35.1847742,
+     "lng": 136.9329354
+    },
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「徳川園」（住所表示：徳川町1001）",
+     "url": null,
+     "lat": 35.1842918,
+     "lng": 136.9321824
+    },
+    {
+     "lineage": "Google",
+     "label": "Aichi Now（愛知県公式観光サイト）spot 9 の登録点（Google地図系の値のため独立源に数えない）",
+     "url": "https://www.aichinow.pref.aichi.jp/spots/detail/9/",
+     "lat": 35.184448,
+     "lng": 136.93301
+    },
+    {
+     "lineage": "GSI",
+     "label": "国土地理院 住所検索「徳川町1001番地」（番地）",
+     "url": null,
+     "lat": 35.183765,
+     "lng": 136.933029
+    }
+   ],
+   "note": "庭園の区域の中央付近（OSMの区域形状の中心）。入口（黒門口など）ではない。広い施設のため2系統の差が大きい。",
+   "question": null,
+   "checkedOn": "2026-10-29",
+   "pin": {
+    "lat": 35.1847742,
+    "lng": 136.9329354,
+    "from": "OSM way/48179151「徳川園」",
+    "url": "https://www.openstreetmap.org/way/48179151"
+   },
+   "agreement": [
+    {
+     "with": "Googleマップの施設ピン「徳川園」（住所表示：徳川町1001）",
+     "meters": 87
+    },
+    {
+     "with": "Aichi Now（愛知県公式観光サイト）spot 9 の登録点（Google地図系の値のため独立源に数えない）",
+     "meters": 37
+    },
+    {
+     "with": "国土地理院 住所検索「徳川町1001番地」（番地）",
+     "meters": 113
+    }
+   ],
+   "independentAgreementMeters": 87,
+   "siteScale": "large"
+  },
+  {
+   "id": "407e3a043cef8119b898d9a369d142fa",
+   "name": "建中寺",
+   "status": "confirmed",
+   "precision": "representative",
+   "official": {
+    "address": "名古屋市東区筒井1-7-57",
+    "sources": [
+     "https://www.pref.aichi.jp/uploaded/attachment/607301.pdf",
+     "https://www.aichinow.pref.aichi.jp/spots/detail/1679/"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM node/2040575122「建中寺」",
+     "url": "https://www.openstreetmap.org/node/2040575122",
+     "lat": 35.1792303,
+     "lng": 136.9269256
+    },
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「徳興山 崇仁院 建中寺」（住所表示：—）",
+     "url": null,
+     "lat": 35.179223,
+     "lng": 136.926949
+    },
+    {
+     "lineage": "Google",
+     "label": "Aichi Now（愛知県公式観光サイト）spot 1679 の登録点（Google地図系の値のため独立源に数えない）",
+     "url": "https://www.aichinow.pref.aichi.jp/spots/detail/1679/",
+     "lat": 35.179267,
+     "lng": 136.92691
+    },
+    {
+     "lineage": "GSI",
+     "label": "国土地理院 住所検索「筒井一丁目7番57号」（住居番号）",
+     "url": null,
+     "lat": 35.178524,
+     "lng": 136.926773
+    }
+   ],
+   "note": "境内が広く、総門・御成門・霊廟は別の位置。ピンは寺の代表位置。",
+   "question": null,
+   "checkedOn": "2026-10-29",
+   "pin": {
+    "lat": 35.1792303,
+    "lng": 136.9269256,
+    "from": "OSM node/2040575122「建中寺」",
+    "url": "https://www.openstreetmap.org/node/2040575122"
+   },
+   "agreement": [
+    {
+     "with": "Googleマップの施設ピン「徳興山 崇仁院 建中寺」（住所表示：—）",
+     "meters": 2
+    },
+    {
+     "with": "Aichi Now（愛知県公式観光サイト）spot 1679 の登録点（Google地図系の値のため独立源に数えない）",
+     "meters": 4
+    },
+    {
+     "with": "国土地理院 住所検索「筒井一丁目7番57号」（住居番号）",
+     "meters": 80
+    }
+   ],
+   "independentAgreementMeters": 2,
+   "siteScale": "building"
+  },
+  {
+   "id": "407e3a043cef811f9dbde5cb2fe79ea4",
+   "name": "名古屋陶磁器会館",
+   "status": "confirmed",
+   "precision": "representative",
+   "official": {
+    "address": "名古屋市東区徳川1-10-3",
+    "sources": [
+     "https://www.nagoya-info.jp/spot/detail/158/"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM way/1197598883「名古屋陶磁器会館」",
+     "url": "https://www.openstreetmap.org/way/1197598883",
+     "lat": 35.1816761,
+     "lng": 136.9235513
+    },
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「名古屋陶磁器会館」（住所表示：徳川1丁目10-3）",
+     "url": null,
+     "lat": 35.1816974,
+     "lng": 136.9235411
+    },
+    {
+     "lineage": "GSI",
+     "label": "国土地理院 住所検索「徳川一丁目10番3号」（住居番号）",
+     "url": null,
+     "lat": 35.181778,
+     "lng": 136.923477
+    }
+   ],
+   "note": "",
+   "question": null,
+   "checkedOn": "2026-10-29",
+   "pin": {
+    "lat": 35.1816761,
+    "lng": 136.9235513,
+    "from": "OSM way/1197598883「名古屋陶磁器会館」",
+    "url": "https://www.openstreetmap.org/way/1197598883"
+   },
+   "agreement": [
+    {
+     "with": "Googleマップの施設ピン「名古屋陶磁器会館」（住所表示：徳川1丁目10-3）",
+     "meters": 3
+    },
+    {
+     "with": "国土地理院 住所検索「徳川一丁目10番3号」（住居番号）",
+     "meters": 13
+    }
+   ],
+   "independentAgreementMeters": 3,
+   "siteScale": "building"
+  },
+  {
+   "id": "407e3a043cef81238d6fc0de8382e883",
+   "name": "徳源寺",
+   "status": "confirmed",
+   "precision": "representative",
+   "official": {
+    "address": "名古屋市東区新出来1-1-19",
+    "sources": [
+     "https://www.pref.aichi.jp/uploaded/attachment/607301.pdf"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM way/672796538「徳源寺」",
+     "url": "https://www.openstreetmap.org/way/672796538",
+     "lat": 35.1819209,
+     "lng": 136.930126
+    },
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「蓬莱山 徳源寺」（住所表示：新出来1丁目1-19）",
+     "url": null,
+     "lat": 35.1820248,
+     "lng": 136.9300134
+    },
+    {
+     "lineage": "GSI",
+     "label": "国土地理院 住所検索「新出来一丁目1番19号」（住居番号）",
+     "url": null,
+     "lat": 35.182091,
+     "lng": 136.930893
+    }
+   ],
+   "note": "境内が広いため代表位置。",
+   "question": null,
+   "checkedOn": "2026-10-29",
+   "pin": {
+    "lat": 35.1819209,
+    "lng": 136.930126,
+    "from": "OSM way/672796538「徳源寺」",
+    "url": "https://www.openstreetmap.org/way/672796538"
+   },
+   "agreement": [
+    {
+     "with": "Googleマップの施設ピン「蓬莱山 徳源寺」（住所表示：新出来1丁目1-19）",
+     "meters": 15
+    },
+    {
+     "with": "国土地理院 住所検索「新出来一丁目1番19号」（住居番号）",
+     "meters": 72
+    }
+   ],
+   "independentAgreementMeters": 15,
+   "siteScale": "building"
+  },
+  {
+   "id": "407e3a043cef8125bdb2c9ac406232af",
+   "name": "文化のみち橦木館",
+   "status": "confirmed",
+   "precision": "representative",
+   "official": {
+    "address": "名古屋市東区橦木町2-18",
+    "sources": [
+     "https://www.aichinow.pref.aichi.jp/spots/detail/957/"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM node/4916203647「撞木館」",
+     "url": "https://www.openstreetmap.org/node/4916203647",
+     "lat": 35.1803884,
+     "lng": 136.915742
+    },
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「文化のみち橦木館（旧井元為三郎邸）」（住所表示：橦木町2丁目18）",
+     "url": null,
+     "lat": 35.1802642,
+     "lng": 136.9158387
+    },
+    {
+     "lineage": "Google",
+     "label": "Aichi Now（愛知県公式観光サイト）spot 957 の登録点（Google地図系の値のため独立源に数えない）",
+     "url": "https://www.aichinow.pref.aichi.jp/spots/detail/957/",
+     "lat": 35.180259,
+     "lng": 136.915818
+    },
+    {
+     "lineage": "GSI",
+     "label": "国土地理院 住所検索「橦木町二丁目18番地」（丁目代表点のみ）",
+     "url": null,
+     "lat": 35.180172,
+     "lng": 136.915329
+    }
+   ],
+   "note": "OSM側はカフェ扱いの点で表記は「撞木館」。位置はGoogleの「文化のみち橦木館」と一致。",
+   "question": null,
+   "checkedOn": "2026-10-29",
+   "pin": {
+    "lat": 35.1803884,
+    "lng": 136.915742,
+    "from": "OSM node/4916203647「撞木館」",
+    "url": "https://www.openstreetmap.org/node/4916203647"
+   },
+   "agreement": [
+    {
+     "with": "Googleマップの施設ピン「文化のみち橦木館（旧井元為三郎邸）」（住所表示：橦木町2丁目18）",
+     "meters": 16
+    },
+    {
+     "with": "Aichi Now（愛知県公式観光サイト）spot 957 の登録点（Google地図系の値のため独立源に数えない）",
+     "meters": 16
+    },
+    {
+     "with": "国土地理院 住所検索「橦木町二丁目18番地」（丁目代表点のみ）",
+     "meters": 45
+    }
+   ],
+   "independentAgreementMeters": 16,
+   "siteScale": "building"
+  },
+  {
+   "id": "407e3a043cef812e9f90ece7c12e8d83",
+   "name": "伊藤家住宅（東区・文化のみち）",
+   "status": "candidate",
+   "precision": null,
+   "official": {
+    "address": "名古屋市東区橦木町2丁目9番地",
+    "sources": [
+     "https://www.city.nagoya.jp/kankou/kankouinfo/1013766/1013962/1034452/1013994.html"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「伊藤家住宅（白壁・主税・橦木の町並み）」（住所表示：橦木町2丁目9）",
+     "url": null,
+     "lat": 35.1801123,
+     "lng": 136.9145301
+    }
+   ],
+   "note": "西区那古野の同名「伊藤家住宅」ではないことを市の所在地（東区橦木町）で確認済み。OSMに登録なし。個人宅。",
+   "question": "位置はこの候補で合っていますか。個人宅としてピンを出してよいですか。",
+   "checkedOn": "2026-10-29",
+   "pin": null
+  },
+  {
+   "id": "407e3a043cef8139b06ac86f7a4d4637",
+   "name": "料亭か茂免",
+   "status": "confirmed",
+   "precision": "representative",
+   "official": {
+    "address": "公式拡大図F（番地は公式資料に記載なし）",
+    "sources": [
+     "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/019/793/01_bukeyashiki.pdf"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM node/10248417383「かもめ」",
+     "url": "https://www.openstreetmap.org/node/10248417383",
+     "lat": 35.182077,
+     "lng": 136.916196
+    },
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「か茂免」（住所表示：—）",
+     "url": null,
+     "lat": 35.182051,
+     "lng": 136.916291
+    }
+   ],
+   "note": "OSM側の表記はひらがな「かもめ」。営業施設。",
+   "question": null,
+   "checkedOn": "2026-10-29",
+   "pin": {
+    "lat": 35.182077,
+    "lng": 136.916196,
+    "from": "OSM node/10248417383「かもめ」",
+    "url": "https://www.openstreetmap.org/node/10248417383"
+   },
+   "agreement": [
+    {
+     "with": "Googleマップの施設ピン「か茂免」（住所表示：—）",
+     "meters": 9
+    }
+   ],
+   "independentAgreementMeters": 9,
+   "siteScale": "building"
+  },
+  {
+   "id": "407e3a043cef8142849cee124a2ccebb",
+   "name": "文化のみち百花百草",
+   "status": "confirmed",
+   "precision": "representative",
+   "official": {
+    "address": "名古屋市東区白壁4-91",
+    "sources": [
+     "https://www.aichinow.pref.aichi.jp/spots/detail/956/",
+     "https://www.nagoya-info.jp/spot/detail/38/"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM node/7628055986「百花百草」",
+     "url": "https://www.openstreetmap.org/node/7628055986",
+     "lat": 35.181873,
+     "lng": 136.914872
+    },
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「文化のみち 百花百草」（住所表示：—）",
+     "url": null,
+     "lat": 35.1819522,
+     "lng": 136.9145749
+    },
+    {
+     "lineage": "Google",
+     "label": "Aichi Now（愛知県公式観光サイト）spot 956 の登録点（Google地図系の値のため独立源に数えない）",
+     "url": "https://www.aichinow.pref.aichi.jp/spots/detail/956/",
+     "lat": 35.181952,
+     "lng": 136.914574
+    }
+   ],
+   "note": "",
+   "question": null,
+   "checkedOn": "2026-10-29",
+   "pin": {
+    "lat": 35.181873,
+    "lng": 136.914872,
+    "from": "OSM node/7628055986「百花百草」",
+    "url": "https://www.openstreetmap.org/node/7628055986"
+   },
+   "agreement": [
+    {
+     "with": "Googleマップの施設ピン「文化のみち 百花百草」（住所表示：—）",
+     "meters": 28
+    },
+    {
+     "with": "Aichi Now（愛知県公式観光サイト）spot 956 の登録点（Google地図系の値のため独立源に数えない）",
+     "meters": 28
+    }
+   ],
+   "independentAgreementMeters": 28,
+   "siteScale": "building"
+  },
+  {
+   "id": "407e3a043cef8153a959eb460a672be8",
+   "name": "旧豊田家門・塀",
+   "status": "confirmed",
+   "precision": "representative",
+   "official": {
+    "address": "名古屋市東区白壁四丁目20番地",
+    "sources": [
+     "https://www.city.nagoya.jp/kankou/kankouinfo/1013766/1013962/1034450/1013976.html"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM node/10248417378「旧豊田家の門」",
+     "url": "https://www.openstreetmap.org/node/10248417378",
+     "lat": 35.182273,
+     "lng": 136.915427
+    },
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「旧豊田家の門 塀」（住所表示：白壁4丁目20）",
+     "url": null,
+     "lat": 35.1822962,
+     "lng": 136.9154316
+    }
+   ],
+   "note": "原則として道路から外観を見る場所。",
+   "question": null,
+   "checkedOn": "2026-10-29",
+   "pin": {
+    "lat": 35.182273,
+    "lng": 136.915427,
+    "from": "OSM node/10248417378「旧豊田家の門」",
+    "url": "https://www.openstreetmap.org/node/10248417378"
+   },
+   "agreement": [
+    {
+     "with": "Googleマップの施設ピン「旧豊田家の門 塀」（住所表示：白壁4丁目20）",
+     "meters": 3
+    }
+   ],
+   "independentAgreementMeters": 3,
+   "siteScale": "building"
+  },
+  {
+   "id": "407e3a043cef8154a9c5e5776fb9e2ed",
+   "name": "旧豊田佐助邸",
+   "status": "confirmed",
+   "precision": "representative",
+   "official": {
+    "address": "名古屋市東区主税町三丁目8",
+    "sources": [
+     "https://www.aichinow.pref.aichi.jp/spots/detail/2419/",
+     "https://www.nagoya-info.jp/spot/detail/74/"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM way/1120554592「旧豊田佐吉邸」",
+     "url": "https://www.openstreetmap.org/way/1120554592",
+     "lat": 35.181379,
+     "lng": 136.916035
+    },
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「旧豊田佐助邸」（住所表示：主税町3丁目8）",
+     "url": null,
+     "lat": 35.1814132,
+     "lng": 136.9159706
+    },
+    {
+     "lineage": "Google",
+     "label": "Aichi Now（愛知県公式観光サイト）spot 2419 の登録点（Google地図系の値のため独立源に数えない）",
+     "url": "https://www.aichinow.pref.aichi.jp/spots/detail/2419/",
+     "lat": 35.18152,
+     "lng": 136.91607
+    },
+    {
+     "lineage": "GSI",
+     "label": "国土地理院 住所検索「主税町三丁目8番地」（丁目代表点のみ）",
+     "url": null,
+     "lat": 35.181335,
+     "lng": 136.915222
+    }
+   ],
+   "note": "要注意：OSMではこの建物が「旧豊田佐吉邸」と登録されている。公式拡大図の配置（H春田邸の東隣がI佐助邸）とGoogle・県公式観光サイトの「旧豊田佐助邸」が同じ建物を指すため、OSMの名称は採らず位置のみ使用。",
+   "question": null,
+   "checkedOn": "2026-10-29",
+   "pin": {
+    "lat": 35.181379,
+    "lng": 136.916035,
+    "from": "OSM way/1120554592「旧豊田佐吉邸」",
+    "url": "https://www.openstreetmap.org/way/1120554592"
+   },
+   "agreement": [
+    {
+     "with": "Googleマップの施設ピン「旧豊田佐助邸」（住所表示：主税町3丁目8）",
+     "meters": 7
+    },
+    {
+     "with": "Aichi Now（愛知県公式観光サイト）spot 2419 の登録点（Google地図系の値のため独立源に数えない）",
+     "meters": 16
+    },
+    {
+     "with": "国土地理院 住所検索「主税町三丁目8番地」（丁目代表点のみ）",
+     "meters": 74
+    }
+   ],
+   "independentAgreementMeters": 7,
+   "siteScale": "building"
+  },
+  {
+   "id": "407e3a043cef8155acf0f17e950a4f89",
+   "name": "拡大図J｜名称要照合",
+   "status": "unresolved",
+   "precision": null,
+   "official": {
+    "address": "公式拡大図J。凡例は「旧櫻明荘門」と読める（公式画像800px版の読み取り。正式表記は未確認）。長屋筋の東、白壁町筋と主税町筋の間",
+    "sources": [
+     "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/019/793/01_bukeyashiki.pdf",
+     "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/019/793/tizu_bukeyashiki800x613px.jpg"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「白壁櫻明荘」（住所表示：—）",
+     "url": null,
+     "lat": 35.1822863,
+     "lng": 136.9173414
+    },
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM way/666884054「グランドメゾン白壁櫻明荘（集合住宅）」",
+     "url": "https://www.openstreetmap.org/way/666884054",
+     "lat": 35.181708,
+     "lng": 136.91728
+    }
+   ],
+   "note": "近くに「櫻明荘」を名に持つ建物があるが、門そのものの位置・現存は確認できていない。",
+   "question": "Jは「旧櫻明荘門」で合っていますか。門がどの通りに面しているか、今も残っているかをご存じですか。",
+   "checkedOn": "2026-10-29",
+   "pin": null,
+   "candidateSpreadMeters": 65
+  },
+  {
+   "id": "407e3a043cef8157869cceda5fc2cff1",
+   "name": "文化のみち二葉館（旧川上貞奴邸）",
+   "status": "confirmed",
+   "precision": "representative",
+   "official": {
+    "address": "名古屋市東区橦木町3-23",
+    "sources": [
+     "https://www.aichinow.pref.aichi.jp/spots/detail/955/"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM way/1252865091「文化のみち二葉館」",
+     "url": "https://www.openstreetmap.org/way/1252865091",
+     "lat": 35.1804255,
+     "lng": 136.9187346
+    },
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「文化のみち二葉館（旧川上貞奴邸）」（住所表示：橦木町3丁目23）",
+     "url": null,
+     "lat": 35.180416,
+     "lng": 136.918672
+    },
+    {
+     "lineage": "Google",
+     "label": "Aichi Now（愛知県公式観光サイト）spot 955 の登録点（Google地図系の値のため独立源に数えない）",
+     "url": "https://www.aichinow.pref.aichi.jp/spots/detail/955/",
+     "lat": 35.180389,
+     "lng": 136.918662
+    },
+    {
+     "lineage": "GSI",
+     "label": "国土地理院 住所検索「橦木町三丁目23番地」（番地）",
+     "url": null,
+     "lat": 35.180389,
+     "lng": 136.919037
+    }
+   ],
+   "note": "公式案内のとおり2005年に現在地へ移築・復元。旧所在地（東二葉町）ではなく現在地。",
+   "question": null,
+   "checkedOn": "2026-10-29",
+   "pin": {
+    "lat": 35.1804255,
+    "lng": 136.9187346,
+    "from": "OSM way/1252865091「文化のみち二葉館」",
+    "url": "https://www.openstreetmap.org/way/1252865091"
+   },
+   "agreement": [
+    {
+     "with": "Googleマップの施設ピン「文化のみち二葉館（旧川上貞奴邸）」（住所表示：橦木町3丁目23）",
+     "meters": 6
+    },
+    {
+     "with": "Aichi Now（愛知県公式観光サイト）spot 955 の登録点（Google地図系の値のため独立源に数えない）",
+     "meters": 8
+    },
+    {
+     "with": "国土地理院 住所検索「橦木町三丁目23番地」（番地）",
+     "meters": 28
+    }
+   ],
+   "independentAgreementMeters": 6,
+   "siteScale": "building"
+  },
+  {
+   "id": "407e3a043cef816da2d8f40fbbc4b8bf",
+   "name": "旧料亭・樟",
+   "status": "candidate",
+   "precision": null,
+   "official": {
+    "address": "名古屋市東区白壁四丁目92番地（白壁町筋の西端）",
+    "sources": [
+     "https://www.city.nagoya.jp/kankou/kankouinfo/1013766/1013962/1034452/1013995.html"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM node/10248417381「旧料亭　樟」",
+     "url": "https://www.openstreetmap.org/node/10248417381",
+     "lat": 35.1821,
+     "lng": 136.91431
+    }
+   ],
+   "note": "Googleマップでは名前で見つからず、独立した2系統目がない。",
+   "question": "OSMの「旧料亭 樟」の点で合っていますか。",
+   "checkedOn": "2026-10-29",
+   "pin": null
+  },
+  {
+   "id": "407e3a043cef816e8b2ded15bf356162",
+   "name": "情妙寺",
+   "status": "confirmed",
+   "precision": "representative",
+   "official": {
+    "address": "名古屋市東区筒井町4-39",
+    "sources": [
+     "https://www.pref.aichi.jp/uploaded/attachment/607301.pdf"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM way/965354343「情妙寺」",
+     "url": "https://www.openstreetmap.org/way/965354343",
+     "lat": 35.1767895,
+     "lng": 136.9309854
+    },
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「源頂山 情妙寺」（住所表示：筒井町4丁目39）",
+     "url": null,
+     "lat": 35.176798,
+     "lng": 136.9309997
+    },
+    {
+     "lineage": "GSI",
+     "label": "国土地理院 住所検索「筒井町四丁目39番地」（丁目代表点のみ）",
+     "url": null,
+     "lat": 35.176811,
+     "lng": 136.930969
+    }
+   ],
+   "note": "",
+   "question": null,
+   "checkedOn": "2026-10-29",
+   "pin": {
+    "lat": 35.1767895,
+    "lng": 136.9309854,
+    "from": "OSM way/965354343「情妙寺」",
+    "url": "https://www.openstreetmap.org/way/965354343"
+   },
+   "agreement": [
+    {
+     "with": "Googleマップの施設ピン「源頂山 情妙寺」（住所表示：筒井町4丁目39）",
+     "meters": 2
+    },
+    {
+     "with": "国土地理院 住所検索「筒井町四丁目39番地」（丁目代表点のみ）",
+     "meters": 3
+    }
+   ],
+   "independentAgreementMeters": 2,
+   "siteScale": "building"
+  },
+  {
+   "id": "407e3a043cef8178b6c6fc6de1193c6b",
+   "name": "百人町・黒門町・城番町筋の町並み",
+   "status": "area",
+   "precision": null,
+   "official": {
+    "address": "区域（地点ではない）",
+    "sources": [
+     "https://www.city.nagoya.jp/higashi/miryoku/1019790/1019791/1019793.html"
+    ]
+   },
+   "sources": [],
+   "note": "区域型スポット。点のピンは付けない（現行の設計どおり）。",
+   "question": "区域として示す場合、範囲は町名の区域でよいですか（長屋の詳細位置は出しません）。",
+   "checkedOn": "2026-10-29",
+   "pin": null
+  },
+  {
+   "id": "407e3a043cef817f99eecc86af783a9e",
+   "name": "自然院",
+   "status": "candidate",
+   "precision": null,
+   "official": {
+    "address": "名古屋市東区筒井町4-13",
+    "sources": [
+     "https://www.pref.aichi.jp/uploaded/attachment/607301.pdf"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「寳池山 黒谷自然院」（住所表示：筒井町4丁目13）",
+     "url": null,
+     "lat": 35.1771401,
+     "lng": 136.9303067
+    },
+    {
+     "lineage": "GSI",
+     "label": "国土地理院 住所検索「筒井町四丁目13番地」（丁目代表点のみ）",
+     "url": null,
+     "lat": 35.176811,
+     "lng": 136.930969
+    }
+   ],
+   "note": "OSMに名前付きの登録がない。国土地理院の住所検索はこの地区では丁目までしか絞れない。",
+   "question": "Googleの「黒谷自然院」ピンの位置で合っていますか。",
+   "checkedOn": "2026-10-29",
+   "pin": null,
+   "candidateSpreadMeters": 70
+  },
+  {
+   "id": "407e3a043cef81908bfbec8cb6bf1a75",
+   "name": "白壁・主税・橦木町並み保存地区",
+   "status": "area",
+   "precision": null,
+   "official": {
+    "address": "区域（地点ではない）",
+    "sources": [
+     "https://www.city.nagoya.jp/higashi/miryoku/1019790/1019791/1019793.html"
+    ]
+   },
+   "sources": [],
+   "note": "区域型スポット。点のピンは付けない（現行の設計どおり）。",
+   "question": "範囲（形）で示しますか、代表点1つで示しますか。",
+   "checkedOn": "2026-10-29",
+   "pin": null
+  },
+  {
+   "id": "407e3a043cef8193ac3ce7a2e05a23c4",
+   "name": "料亭・香楽",
+   "status": "confirmed",
+   "precision": "representative",
+   "official": {
+    "address": "公式拡大図G（番地は公式資料に記載なし）",
+    "sources": [
+     "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/019/793/01_bukeyashiki.pdf"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM node/10248417380「料亭　香楽」",
+     "url": "https://www.openstreetmap.org/node/10248417380",
+     "lat": 35.181231,
+     "lng": 136.914699
+    },
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「香楽」（住所表示：主税町3丁目3）",
+     "url": null,
+     "lat": 35.181294,
+     "lng": 136.914669
+    }
+   ],
+   "note": "営業施設。営業状況は未確認。",
+   "question": null,
+   "checkedOn": "2026-10-29",
+   "pin": {
+    "lat": 35.181231,
+    "lng": 136.914699,
+    "from": "OSM node/10248417380「料亭　香楽」",
+    "url": "https://www.openstreetmap.org/node/10248417380"
+   },
+   "agreement": [
+    {
+     "with": "Googleマップの施設ピン「香楽」（住所表示：主税町3丁目3）",
+     "meters": 8
+    }
+   ],
+   "independentAgreementMeters": 8,
+   "siteScale": "building"
+  },
+  {
+   "id": "407e3a043cef819688cdef274924e959",
+   "name": "東海学園講堂",
+   "status": "candidate",
+   "precision": null,
+   "official": {
+    "address": "名古屋市東区筒井一丁目202番地の4",
+    "sources": [
+     "https://www.city.nagoya.jp/kankou/kankouinfo/1013766/1013962/1034451/1013990.html"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「東海学園大講堂」（住所表示：筒井1丁目2-35）",
+     "url": null,
+     "lat": 35.1799418,
+     "lng": 136.9294316
+    }
+   ],
+   "note": "OSMは東海中学校・東海高等学校の校舎のみで、講堂は名前付きで未登録。学校敷地内。",
+   "question": "講堂の位置はこの候補で合っていますか。学校敷地内の建物にピンを出してよいですか。",
+   "checkedOn": "2026-10-29",
+   "pin": null
+  },
+  {
+   "id": "407e3a043cef819ab9abea55c1605d38",
+   "name": "文化のみち堀美術館（堀美術館）",
+   "status": "confirmed",
+   "precision": "representative",
+   "official": {
+    "address": "名古屋市東区主税町4-4-2",
+    "sources": [
+     "https://www.nagoya-info.jp/spot/detail/72/"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM way/666884059「堀美術館」",
+     "url": "https://www.openstreetmap.org/way/666884059",
+     "lat": 35.181374,
+     "lng": 136.917127
+    },
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「文化のみち 堀美術館」（住所表示：主税町4丁目4-2）",
+     "url": null,
+     "lat": 35.18145,
+     "lng": 136.917124
+    },
+    {
+     "lineage": "GSI",
+     "label": "国土地理院 住所検索「主税町四丁目4番地」（番地）",
+     "url": null,
+     "lat": 35.181499,
+     "lng": 136.917664
+    }
+   ],
+   "note": "",
+   "question": null,
+   "checkedOn": "2026-10-29",
+   "pin": {
+    "lat": 35.181374,
+    "lng": 136.917127,
+    "from": "OSM way/666884059「堀美術館」",
+    "url": "https://www.openstreetmap.org/way/666884059"
+   },
+   "agreement": [
+    {
+     "with": "Googleマップの施設ピン「文化のみち 堀美術館」（住所表示：主税町4丁目4-2）",
+     "meters": 8
+    },
+    {
+     "with": "国土地理院 住所検索「主税町四丁目4番地」（番地）",
+     "meters": 51
+    }
+   ],
+   "independentAgreementMeters": 8,
+   "siteScale": "building"
+  },
+  {
+   "id": "407e3a043cef81afa589ebddc8b95fdb",
+   "name": "名古屋城",
+   "status": "confirmed",
+   "precision": "representative",
+   "official": {
+    "address": "名古屋市中区本丸1-1",
+    "sources": [
+     "https://www.nagoyajo.city.nagoya.jp/access/"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM relation/19100633「名古屋城」",
+     "url": "https://www.openstreetmap.org/relation/19100633",
+     "lat": 35.184396,
+     "lng": 136.9000992
+    },
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「名古屋城」（住所表示：中区本丸1-1）",
+     "url": null,
+     "lat": 35.1847501,
+     "lng": 136.8996883
+    },
+    {
+     "lineage": "GSI",
+     "label": "国土地理院 住所検索「本丸1番」（番地）",
+     "url": null,
+     "lat": 35.18449,
+     "lng": 136.897583
+    }
+   ],
+   "note": "城域の中心付近（OSMの区域形状の中心）。天守・正門・東門のいずれでもない代表位置。百人町側からの入口は未確定。",
+   "question": null,
+   "checkedOn": "2026-10-29",
+   "pin": {
+    "lat": 35.184396,
+    "lng": 136.9000992,
+    "from": "OSM relation/19100633「名古屋城」",
+    "url": "https://www.openstreetmap.org/relation/19100633"
+   },
+   "agreement": [
+    {
+     "with": "Googleマップの施設ピン「名古屋城」（住所表示：中区本丸1-1）",
+     "meters": 54
+    },
+    {
+     "with": "国土地理院 住所検索「本丸1番」（番地）",
+     "meters": 229
+    }
+   ],
+   "independentAgreementMeters": 54,
+   "siteScale": "large"
+  },
+  {
+   "id": "407e3a043cef81b48097e3f426f6cc40",
+   "name": "主税町長屋門",
+   "status": "candidate",
+   "precision": null,
+   "official": {
+    "address": "番地は公式資料に記載なし（公式拡大図では主税町筋の東端、二葉館の北側）",
+    "sources": [
+     "https://www.city.nagoya.jp/higashi/miryoku/1019790/1019791/1019793.html",
+     "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/019/793/01_bukeyashiki.pdf"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「主税町長屋門」（住所表示：主税町4丁目68）",
+     "url": null,
+     "lat": 35.181253,
+     "lng": 136.919145
+    }
+   ],
+   "note": "OSMに門そのものの登録がない（近くの案内板「御畳奉行 朝日文左衛門重章 屋敷跡」は約55m離れた別物）。",
+   "question": "Googleの「主税町長屋門」ピンの位置で合っていますか。",
+   "checkedOn": "2026-10-29",
+   "pin": null
+  },
+  {
+   "id": "407e3a043cef81b88076e7648b805034",
+   "name": "櫻井家住宅",
+   "status": "candidate",
+   "precision": null,
+   "official": {
+    "address": "公式拡大図E（白壁町筋の南側、百花百草とか茂免の間）",
+    "sources": [
+     "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/019/793/01_bukeyashiki.pdf"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「櫻井家住宅」（住所表示：白壁4丁目89）",
+     "url": null,
+     "lat": 35.1820081,
+     "lng": 136.9152503
+    }
+   ],
+   "note": "OSMに登録なし。個人宅のため、位置が合っていてもピン表示の可否は別判断。",
+   "question": "位置はこの候補で合っていますか。個人宅としてピンを出してよいですか。",
+   "checkedOn": "2026-10-29",
+   "pin": null
+  },
+  {
+   "id": "407e3a043cef81b8b176fbdbf48ec336",
+   "name": "物部神社",
+   "status": "confirmed",
+   "precision": "representative",
+   "official": {
+    "address": "名古屋市東区筒井3-31-21",
+    "sources": [
+     "https://www.pref.aichi.jp/uploaded/attachment/607301.pdf"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM way/682820500「物部神社」",
+     "url": "https://www.openstreetmap.org/way/682820500",
+     "lat": 35.1734537,
+     "lng": 136.9315875
+    },
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「物部神社（石神堂）」（住所表示：筒井3丁目31-21）",
+     "url": null,
+     "lat": 35.1734112,
+     "lng": 136.9315216
+    },
+    {
+     "lineage": "GSI",
+     "label": "国土地理院 住所検索「筒井三丁目31番21号」（住居番号）",
+     "url": null,
+     "lat": 35.173351,
+     "lng": 136.931427
+    }
+   ],
+   "note": "",
+   "question": null,
+   "checkedOn": "2026-10-29",
+   "pin": {
+    "lat": 35.1734537,
+    "lng": 136.9315875,
+    "from": "OSM way/682820500「物部神社」",
+    "url": "https://www.openstreetmap.org/way/682820500"
+   },
+   "agreement": [
+    {
+     "with": "Googleマップの施設ピン「物部神社（石神堂）」（住所表示：筒井3丁目31-21）",
+     "meters": 8
+    },
+    {
+     "with": "国土地理院 住所検索「筒井三丁目31番21号」（住居番号）",
+     "meters": 19
+    }
+   ],
+   "independentAgreementMeters": 8,
+   "siteScale": "building"
+  },
+  {
+   "id": "407e3a043cef81c994bcc245bf043007",
+   "name": "名古屋市市政資料館",
+   "status": "confirmed",
+   "precision": "representative",
+   "official": {
+    "address": "名古屋市東区白壁一丁目3",
+    "sources": [
+     "https://www.city.nagoya.jp/kankou/rekishi/1004614/1004627/1016058.html",
+     "https://www.nagoya-info.jp/spot/detail/154/"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM relation/17971356「旧名古屋控訴院地方裁判所区裁判所庁舎」",
+     "url": "https://www.openstreetmap.org/relation/17971356",
+     "lat": 35.181267,
+     "lng": 136.9102918
+    },
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「名古屋市市政資料館」（住所表示：白壁1丁目3）",
+     "url": null,
+     "lat": 35.1811442,
+     "lng": 136.9103135
+    },
+    {
+     "lineage": "Google",
+     "label": "Aichi Now（愛知県公式観光サイト）spot 190 の登録点（Google地図系の値のため独立源に数えない）",
+     "url": "https://www.aichinow.pref.aichi.jp/spots/detail/190/",
+     "lat": 35.181385,
+     "lng": 136.910322
+    },
+    {
+     "lineage": "GSI",
+     "label": "国土地理院 住所検索「白壁一丁目3番地」（街区代表点）",
+     "url": null,
+     "lat": 35.182091,
+     "lng": 136.910156
+    }
+   ],
+   "note": "",
+   "question": null,
+   "checkedOn": "2026-10-29",
+   "pin": {
+    "lat": 35.181267,
+    "lng": 136.9102918,
+    "from": "OSM relation/17971356「旧名古屋控訴院地方裁判所区裁判所庁舎」",
+    "url": "https://www.openstreetmap.org/relation/17971356"
+   },
+   "agreement": [
+    {
+     "with": "Googleマップの施設ピン「名古屋市市政資料館」（住所表示：白壁1丁目3）",
+     "meters": 14
+    },
+    {
+     "with": "Aichi Now（愛知県公式観光サイト）spot 190 の登録点（Google地図系の値のため独立源に数えない）",
+     "meters": 13
+    },
+    {
+     "with": "国土地理院 住所検索「白壁一丁目3番地」（街区代表点）",
+     "meters": 92
+    }
+   ],
+   "independentAgreementMeters": 14,
+   "siteScale": "building"
+  },
+  {
+   "id": "407e3a043cef81d0aefbe8c3648653ed",
+   "name": "覚音寺",
+   "status": "confirmed",
+   "precision": "representative",
+   "official": {
+    "address": "名古屋市東区新出来1-5-16（宗教法人名簿の表記は「覺音寺」）",
+    "sources": [
+     "https://www.pref.aichi.jp/uploaded/attachment/607301.pdf"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM node/2078061689「覺音寺」",
+     "url": "https://www.openstreetmap.org/node/2078061689",
+     "lat": 35.1817119,
+     "lng": 136.9310909
+    },
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「覚音寺」（住所表示：新出来1丁目5-16）",
+     "url": null,
+     "lat": 35.181703,
+     "lng": 136.931157
+    },
+    {
+     "lineage": "GSI",
+     "label": "国土地理院 住所検索「新出来一丁目5番16号」（住居番号）",
+     "url": null,
+     "lat": 35.181602,
+     "lng": 136.931412
+    }
+   ],
+   "note": "",
+   "question": null,
+   "checkedOn": "2026-10-29",
+   "pin": {
+    "lat": 35.1817119,
+    "lng": 136.9310909,
+    "from": "OSM node/2078061689「覺音寺」",
+    "url": "https://www.openstreetmap.org/node/2078061689"
+   },
+   "agreement": [
+    {
+     "with": "Googleマップの施設ピン「覚音寺」（住所表示：新出来1丁目5-16）",
+     "meters": 6
+    },
+    {
+     "with": "国土地理院 住所検索「新出来一丁目5番16号」（住居番号）",
+     "meters": 32
+    }
+   ],
+   "independentAgreementMeters": 6,
+   "siteScale": "building"
+  },
+  {
+   "id": "407e3a043cef81d59e19fe01b74ad602",
+   "name": "カトリック主税町教会",
+   "status": "confirmed",
+   "precision": "representative",
+   "official": {
+    "address": "名古屋市東区主税町3丁目33番地",
+    "sources": [
+     "https://www.city.nagoya.jp/kankou/kankouinfo/1013766/1013962/1034451/1013981.html",
+     "https://www.nagoya-info.jp/spot/detail/73/"
+    ]
+   },
+   "sources": [
+    {
+     "lineage": "OpenStreetMap",
+     "label": "OSM node/10248417385「主税町教会」",
+     "url": "https://www.openstreetmap.org/node/10248417385",
+     "lat": 35.18054,
+     "lng": 136.9141621
+    },
+    {
+     "lineage": "Google",
+     "label": "Googleマップの施設ピン「カトリック主税町教会」（住所表示：主税町3-33）",
+     "url": null,
+     "lat": 35.1807411,
+     "lng": 136.914322
+    },
+    {
+     "lineage": "GSI",
+     "label": "国土地理院 住所検索「主税町三丁目33番地」（丁目代表点のみ）",
+     "url": null,
+     "lat": 35.180752,
+     "lng": 136.915329
+    }
+   ],
+   "note": "礼拝・見学のルールは施設の案内に従う。",
+   "question": null,
+   "checkedOn": "2026-10-29",
+   "pin": {
+    "lat": 35.18054,
+    "lng": 136.9141621,
+    "from": "OSM node/10248417385「主税町教会」",
+    "url": "https://www.openstreetmap.org/node/10248417385"
+   },
+   "agreement": [
+    {
+     "with": "Googleマップの施設ピン「カトリック主税町教会」（住所表示：主税町3-33）",
+     "meters": 27
+    },
+    {
+     "with": "国土地理院 住所検索「主税町三丁目33番地」（丁目代表点のみ）",
+     "meters": 109
+    }
+   ],
+   "independentAgreementMeters": 27,
+   "siteScale": "building"
+  }
+ ]
+}

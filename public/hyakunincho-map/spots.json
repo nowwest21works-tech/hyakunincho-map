@@ -1,0 +1,550 @@
+{
+  "formatVersion": 1,
+  "inputVersion": "notion-mcp-20261029T031238Z-v1",
+  "retrievedAt": "2026-10-29T03:12:38Z",
+  "sourceDataSource": "collection://16c7c12b-396e-4de5-b55a-36fe7c44c07b",
+  "expectedCount": 30,
+  "spots": [
+    {
+      "id": "407e3a043cef810091d7cee0bd906bb8",
+      "name": "金城学院高等学校榮光館",
+      "theme": "歴史・建築",
+      "area": "白壁・主税・橦木",
+      "description": "金城学院内に残る歴史的建築の榮光館。学校建築の歩みと、白壁の文化的風景を伝える。",
+      "section": "公式拡大図",
+      "symbol": "B",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/019/793/01_bukeyashiki.pdf",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef81078526d95c5803e78a",
+      "name": "旧春田鉄次郎邸",
+      "theme": "歴史・建築",
+      "area": "白壁・主税・橦木",
+      "description": "陶磁器貿易で栄えた地域を象徴する近代建築の一つ。洋館と和館が残る邸宅として紹介される。",
+      "section": "公式拡大図",
+      "symbol": "H",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/019/793/01_bukeyashiki.pdf",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef81139f9df6aaf1d15993",
+      "name": "徳川園",
+      "theme": "公園・自然",
+      "area": "周辺・拡張",
+      "description": "尾張徳川家ゆかりの歴史を伝える庭園。武家の町並みから東へ足を延ばす周辺文化スポット。",
+      "section": "周辺参考",
+      "symbol": "拡張候補（公式順路外）",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/kurashi/douro/1014853/1014854/1014865.html",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef8119b898d9a369d142fa",
+      "name": "建中寺",
+      "theme": "寺社・信仰",
+      "area": "筒井・新出来",
+      "description": "尾張徳川家ゆかりの浄土宗寺院。江戸期から続く総門・山門・本堂などが地域の景観を形づくる。",
+      "section": "周辺参考",
+      "symbol": "拡張候補（公式順路外）",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/kankou/kankouinfo/1013766/1013962/1034451/1013985.html",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef811f9dbde5cb2fe79ea4",
+      "name": "名古屋陶磁器会館",
+      "theme": "文化・美術",
+      "area": "白壁・主税・橦木",
+      "description": "昭和7年（1932年）竣工の陶磁器貿易関係団体の事務所建築。外壁のタイル張りが印象的。",
+      "section": "公式順路",
+      "symbol": "6",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/higashi/miryoku/1019790/1019791/1019793.html",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef81238d6fc0de8382e883",
+      "name": "徳源寺",
+      "theme": "寺社・信仰",
+      "area": "百人町・黒門・城番",
+      "description": "織田信雄が創建した臨済宗妙心寺派の寺。尾張徳川家ゆかりの修行道場の歴史を持つ。",
+      "section": "公式順路",
+      "symbol": "7",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/higashi/miryoku/1019790/1019791/1019793.html",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef8125bdb2c9ac406232af",
+      "name": "文化のみち橦木館",
+      "theme": "歴史・建築",
+      "area": "白壁・主税・橦木",
+      "description": "陶磁器商・井元為三郎ゆかりの和洋併置の住宅。洋館・和館・蔵・茶室・庭園から、当時の暮らしと建築文化を感じられる。",
+      "section": "公式順路",
+      "symbol": "3 / N",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/higashi/miryoku/1019790/1019791/1019793.html",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef812e9f90ece7c12e8d83",
+      "name": "伊藤家住宅（東区・文化のみち）",
+      "theme": "歴史・建築",
+      "area": "白壁・主税・橦木",
+      "description": "文化のみち拡大図に示された歴史的住宅。主税・橦木の町並みと一体として紹介する。",
+      "section": "公式拡大図",
+      "symbol": "M",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/019/793/01_bukeyashiki.pdf",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef8139b06ac86f7a4d4637",
+      "name": "料亭か茂免",
+      "theme": "飲食・喫茶",
+      "area": "白壁・主税・橦木",
+      "description": "白壁町筋に立つ歴史ある料亭。周囲の町並みや建築とともに、名古屋の料亭文化を考える場所。",
+      "section": "公式拡大図",
+      "symbol": "F",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/019/793/01_bukeyashiki.pdf",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef8142849cee124a2ccebb",
+      "name": "文化のみち百花百草",
+      "theme": "文化・美術",
+      "area": "白壁・主税・橦木",
+      "description": "大正期の書院・茶室・土蔵を活かした施設と庭園。文化のみちに残る歴史建築の再生例。",
+      "section": "公式拡大図",
+      "symbol": "D",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/019/793/01_bukeyashiki.pdf",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef8153a959eb460a672be8",
+      "name": "旧豊田家門・塀",
+      "theme": "歴史・建築",
+      "area": "白壁・主税・橦木",
+      "description": "白壁町筋に残る歴史的な門と塀。武家屋敷の地割や、近代以降の邸宅のたたずまいを読み取れる。",
+      "section": "公式拡大図",
+      "symbol": "A",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/019/793/01_bukeyashiki.pdf",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef8154a9c5e5776fb9e2ed",
+      "name": "旧豊田佐助邸",
+      "theme": "歴史・建築",
+      "area": "白壁・主税・橦木",
+      "description": "実業家・豊田佐助の旧邸。白いタイル張りの洋館と和館から、大正期の生活文化が伝わる。",
+      "section": "公式拡大図",
+      "symbol": "I",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/019/793/01_bukeyashiki.pdf",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef8155acf0f17e950a4f89",
+      "name": "拡大図J｜名称要照合",
+      "theme": "歴史・建築",
+      "area": "白壁・主税・橦木",
+      "description": "名古屋市東区『武家屋敷散策コース』PDF拡大図のJ印。原図の固有名詞が現時点で十分に判読できないため、誤登録を避けて仮名称で収録。",
+      "section": "公式拡大図",
+      "symbol": "J",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/019/793/01_bukeyashiki.pdf",
+      "missing": [
+        "座標と確認根拠",
+        "正式名称",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef8157869cceda5fc2cff1",
+      "name": "文化のみち二葉館（旧川上貞奴邸）",
+      "theme": "歴史・建築",
+      "area": "白壁・主税・橦木",
+      "description": "川上貞奴と福沢桃介が暮らした「二葉御殿」の移築復元施設。和洋折衷の住宅として文化のみちを代表する。",
+      "section": "公式順路",
+      "symbol": "4",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/higashi/miryoku/1019790/1019791/1019793.html",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef816da2d8f40fbbc4b8bf",
+      "name": "旧料亭・樟",
+      "theme": "歴史・建築",
+      "area": "白壁・主税・橦木",
+      "description": "白壁町筋に残る旧料亭の門と塀。黒塗りの和風の門・板塀、緑がつくる風景が特徴。",
+      "section": "公式拡大図",
+      "symbol": "C",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/kankou/kankouinfo/1013766/1013962/1034452/1013995.html",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef816e8b2ded15bf356162",
+      "name": "情妙寺",
+      "theme": "寺社・信仰",
+      "area": "百人町・黒門・城番",
+      "description": "日蓮宗の寺院。茶屋新六交趾渡航図巻や、芭蕉に師事した日陽和尚の水鶏塚など地域史の見どころがある。",
+      "section": "公式順路",
+      "symbol": "9",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/higashi/miryoku/1019790/1019791/1019793.html",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef8178b6c6fc6de1193c6b",
+      "name": "百人町・黒門町・城番町筋の町並み",
+      "theme": "町並み・路地",
+      "area": "百人町・黒門・城番",
+      "description": "百人組同心など下級武士が居住した地域。今も地名や一部の路地・町並みに藩政期の名残がある。",
+      "section": "公式町並み",
+      "symbol": "順路8と9の間（番号なし）",
+      "visitStatus": "未照合",
+      "coordinateStatus": "area",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/higashi/miryoku/1019790/1019791/1019793.html",
+      "missing": [
+        "区域の表示方法・形状の確認",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef817f99eecc86af783a9e",
+      "name": "自然院",
+      "theme": "寺社・信仰",
+      "area": "百人町・黒門・城番",
+      "description": "承応元年（1652年）創建の浄土宗寺院。元禄8年（1695年）に筒井町へ移転した歴史を持つ。",
+      "section": "公式順路",
+      "symbol": "10",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/higashi/miryoku/1019790/1019791/1019793.html",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef81908bfbec8cb6bf1a75",
+      "name": "白壁・主税・橦木町並み保存地区",
+      "theme": "町並み・路地",
+      "area": "白壁・主税・橦木",
+      "description": "武家屋敷の地割を引き継ぐ町並み。屋敷門や塀、和洋の近代建築が残り、名古屋市の町並み保存地区に指定されている。",
+      "section": "公式順路",
+      "symbol": "2",
+      "visitStatus": "未照合",
+      "coordinateStatus": "area",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/higashi/miryoku/1019790/1019791/1019793.html",
+      "missing": [
+        "区域の表示方法・形状の確認",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef8193ac3ce7a2e05a23c4",
+      "name": "料亭・香楽",
+      "theme": "飲食・喫茶",
+      "area": "白壁・主税・橦木",
+      "description": "町並み保存地区の拡大図に紹介された料亭。地域の食文化と歴史ある建築の文脈で紹介する。",
+      "section": "公式拡大図",
+      "symbol": "G",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/019/793/01_bukeyashiki.pdf",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef819688cdef274924e959",
+      "name": "東海学園講堂",
+      "theme": "歴史・建築",
+      "area": "周辺・拡張",
+      "description": "文化のみち周辺に位置する歴史的な講堂建築。学校・宗教・地域文化のつながりを読み解く候補。",
+      "section": "周辺参考",
+      "symbol": "拡張候補（公式順路外）",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/017/361/culturalpath_jp202311.pdf",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef819ab9abea55c1605d38",
+      "name": "文化のみち堀美術館（堀美術館）",
+      "theme": "文化・美術",
+      "area": "白壁・主税・橦木",
+      "description": "白壁・主税・橦木エリアの美術館。近代日本の美術作品を紹介する文化スポット。",
+      "section": "公式拡大図",
+      "symbol": "K",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/019/793/01_bukeyashiki.pdf",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef81afa589ebddc8b95fdb",
+      "name": "名古屋城",
+      "theme": "歴史・建築",
+      "area": "周辺・拡張",
+      "description": "名古屋の城下町の歴史を知る起点。百人町・武家屋敷の成立した都市構造を理解する広域スポット。",
+      "section": "周辺参考",
+      "symbol": "拡張候補（公式順路外）",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.nagoyajo.city.nagoya.jp/access/",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef81b48097e3f426f6cc40",
+      "name": "主税町長屋門",
+      "theme": "歴史・建築",
+      "area": "白壁・主税・橦木",
+      "description": "武家屋敷の面影を残す長屋門。番所の武者窓など、かつての屋敷門の構成が見どころ。",
+      "section": "公式順路",
+      "symbol": "5",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/higashi/miryoku/1019790/1019791/1019793.html",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef81b5b765ed86e8b9b6e3",
+      "name": "みんなのまほろ場｜百人町百人衆プロジェクト",
+      "theme": "百人町活動",
+      "area": "百人町・黒門・城番",
+      "description": "実在の百人町で長屋を手入れしながら、DIO（みんなでやってみよう）の活動を育てる拠点。『勝手に百人町Map』の物語上の入口候補。",
+      "section": "周辺参考",
+      "symbol": "拡張候補（公式順路外）",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": null,
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef81b88076e7648b805034",
+      "name": "櫻井家住宅",
+      "theme": "歴史・建築",
+      "area": "白壁・主税・橦木",
+      "description": "白壁町筋の歴史的な住宅。建物と周囲の町並みを一体として見るスポット。",
+      "section": "公式拡大図",
+      "symbol": "E",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/019/793/01_bukeyashiki.pdf",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef81b8b176fbdbf48ec336",
+      "name": "物部神社",
+      "theme": "寺社・信仰",
+      "area": "筒井・新出来",
+      "description": "石神堂とも呼ばれ、物部氏の祖・宇摩志麻遅命を祀る神社。大石を神体とする由緒を持つ。",
+      "section": "公式順路",
+      "symbol": "11",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/higashi/miryoku/1019790/1019791/1019793.html",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef81c994bcc245bf043007",
+      "name": "名古屋市市政資料館",
+      "theme": "歴史・建築",
+      "area": "白壁・主税・橦木",
+      "description": "大正11年（1922年）竣工の旧名古屋控訴院・地方裁判所・区裁判所庁舎。ネオバロック様式を特徴とする重要文化財で、現在は市政・司法の歴史を伝える資料館。",
+      "section": "公式順路",
+      "symbol": "1",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/higashi/miryoku/1019790/1019791/1019793.html",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef81d0aefbe8c3648653ed",
+      "name": "覚音寺",
+      "theme": "寺社・信仰",
+      "area": "百人町・黒門・城番",
+      "description": "真宗大谷派の寺院。仏教思想家・清沢満之が得度し、学んだ場所として紹介されている。",
+      "section": "公式順路",
+      "symbol": "8",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/higashi/miryoku/1019790/1019791/1019793.html",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    },
+    {
+      "id": "407e3a043cef81d59e19fe01b74ad602",
+      "name": "カトリック主税町教会",
+      "theme": "寺社・信仰",
+      "area": "白壁・主税・橦木",
+      "description": "主税町筋に残る歴史的な教会建築。鐘楼・礼拝堂・敷地の緑など、文化のみちの多様な宗教文化が感じられる。",
+      "section": "公式拡大図",
+      "symbol": "L",
+      "visitStatus": "未照合",
+      "coordinateStatus": "unconfirmed",
+      "coordinates": null,
+      "sourceUrl": "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/019/793/01_bukeyashiki.pdf",
+      "missing": [
+        "座標と確認根拠",
+        "実訪問の照合",
+        "外部公開の判断"
+      ]
+    }
+  ]
+}

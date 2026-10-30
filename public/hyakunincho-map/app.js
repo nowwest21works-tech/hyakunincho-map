@@ -1,11 +1,12 @@
 import { applyOwnerAddressPoints, ownerAddressPointFor, OWNER_ADDRESS_POINTS } from './owner-address-points.js';
 import { applyResearchPoints, researchPointFor } from './coordinate-research.js';
+import { AREA_DISPLAY } from './coordinate-research-data.js';
 import { ARTWORKS } from './artworks.js';
 import { GUIDES, GUIDES_CHECKED_ON, KINDS, MANNERS } from './spot-guides.js';
 import { THEMES, selectSpots, validateSnapshot } from './model.js';
 const NAGAYA_ID='407e3a043cef81b5b765ed86e8b9b6e3';
 const $=id=>document.getElementById(id);
-const state={data:null,selected:null,map:null,markers:new Map(),tiles:null,view:'map',location:null,locationCircle:null,locationRequest:0,loading:false,tileFailed:false};
+const state={data:null,selected:null,map:null,markers:new Map(),areas:new Map(),tiles:null,view:'map',location:null,locationCircle:null,locationRequest:0,loading:false,tileFailed:false};
 function node(tag,text,className) { const el=document.createElement(tag); if(text!==undefined)el.textContent=text; if(className)el.className=className; return el; }
 // Stable pin label shared by the list card and the map pin: the official course number or enlarged-map letter.
 function pinLabel(spot){
@@ -77,6 +78,25 @@ function render(){
 function markSelection(){
   document.querySelectorAll('.spot').forEach(el=>el.setAttribute('aria-current',String(el.dataset.spotId===state.selected)));
   state.markers.forEach((marker,id)=>marker.getElement()?.classList.toggle('selected',id===state.selected));
+  state.areas.forEach((layer,id)=>layer.getElement()?.classList.toggle('selected',id===state.selected));
+}
+// Areas are not pins: the preservation district is drawn as its shape, 百人町 as a name label on the quarter point.
+function renderAreas(spots){
+  state.areas.forEach(layer=>layer.remove());state.areas.clear();
+  for(const spot of spots){
+    const area=Object.hasOwn(AREA_DISPLAY,spot.id)?AREA_DISPLAY[spot.id]:null;if(!area)continue;
+    const layer=area.type==='polygon'
+      ?L.polygon(area.ring,{className:'area-shape',color:'#914724',weight:2,dashArray:'6 5',fillColor:'#914724',fillOpacity:.1}).bindTooltip(spot.name,{sticky:true})
+      :L.marker([area.coordinates.lat,area.coordinates.lng],{icon:L.divIcon({className:'area-pin',html:node('span',spot.name.split('・')[0]),iconSize:null}),title:spot.name,alt:spot.name,keyboard:true,zIndexOffset:-500});
+    layer.addTo(state.map).on('click',()=>select(spot.id,'pin'));
+    const el=layer.getElement();el.dataset.spotId=spot.id;el.setAttribute('aria-label',`${spot.name}の案内を開く`);
+    state.areas.set(spot.id,layer);
+  }
+}
+function showOnMap(spot){
+  const area=Object.hasOwn(AREA_DISPLAY,spot.id)?AREA_DISPLAY[spot.id]:null;
+  if(area?.type==='polygon')state.map.fitBounds(area.ring,{padding:[30,30],maxZoom:17,animate:false});
+  else{const c=spot.coordinates??area.coordinates;state.map.setView([c.lat,c.lng],area?17:18,{animate:false});}
 }
 function select(id,origin){
   const spot=state.data?.spots.find(s=>s.id===id);if(!spot)return;
@@ -100,11 +120,11 @@ function select(id,origin){
   if(guide?.hours||guide?.closed||guide?.fee)content.push(node('p',`開館時間・料金は${GUIDES_CHECKED_ON.replace(/^(\d+)-0?(\d+)-0?(\d+)$/,'$1年$2月$3日')}に公式情報で確かめたものです。お出かけ前に公式サイトをご確認ください。`,'detail-note'));
   if(guide&&MANNERS[guide.kind])content.push(node('p',MANNERS[guide.kind],'detail-manners'));
   const actions=node('div',undefined,'detail-actions');
-  if(spot.coordinateStatus==='verified'&&state.map){
+  if((spot.coordinateStatus==='verified'||Object.hasOwn(AREA_DISPLAY,spot.id))&&state.map){
     const show=node('button','地図で見る','detail-map');show.type='button';show.addEventListener('click',()=>{$('detail').close();view('map');
       // On phones the map panel was hidden (display:none) until now: size the map first, then jump without a pan animation,
       // otherwise a short pan between neighbouring pins is computed against a zero-size map and the pin lands off-centre.
-      requestAnimationFrame(()=>{state.map.invalidateSize({pan:false});state.map.setView([spot.coordinates.lat,spot.coordinates.lng],18,{animate:false});$('map-panel').scrollIntoView({block:'start'});state.markers.get(id)?.getElement()?.focus({preventScroll:true});});});actions.append(show);
+      requestAnimationFrame(()=>{state.map.invalidateSize({pan:false});showOnMap(spot);$('map-panel').scrollIntoView({block:'start'});(state.markers.get(id)??state.areas.get(id))?.getElement()?.focus({preventScroll:true});});});actions.append(show);
   }
   if(spot.coordinates)actions.append(link('Googleマップで道順（徒歩） ↗',`https://www.google.com/maps/dir/?api=1&destination=${spot.coordinates.lat},${spot.coordinates.lng}&travelmode=walking`,'detail-route'));
   if(guide?.official)actions.append(link(`${guide.official.label} ↗`,guide.official.url,'detail-official'));
@@ -118,6 +138,7 @@ function select(id,origin){
 }
 function renderMarkers(spots){
   if(!state.map)return;
+  renderAreas(spots);
   state.markers.forEach(marker=>marker.remove());state.markers.clear();
   for(const spot of spots.filter(s=>s.coordinateStatus==='verified')){
     const html=node('div',undefined,'pin-dot');html.append(node('span',pinLabel(spot)));

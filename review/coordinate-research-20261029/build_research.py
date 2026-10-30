@@ -135,6 +135,22 @@ for oid,(answer,display) in OWNER.items():
 # ---------- areas ----------
 for aid,nm,q in [('407e3a043cef81908bfbec8cb6bf1a75','白壁・主税・橦木町並み保存地区','範囲（形）で示しますか、代表点1つで示しますか。'),('407e3a043cef8178b6c6fc6de1193c6b','百人町・黒門町・城番町筋の町並み','区域として示す場合、範囲は町名の区域でよいですか（長屋の詳細位置は出しません）。')]:
     add(aid,nm,'area',{'address':'区域（地点ではない）','sources':[COURSE]},[],note='区域型スポット。点のピンは付けない（現行の設計どおり）。',question=q)
+# ---------- area display (2026-10-30, NEXT-STEPS「区域の調査結果」) ----------
+# 保存地区：OSM way/653386294 の形（osm-way-653386294.json に取得値を保存）。市の指定図 shirakabe_kuiki.pdf と台形の形が一致、面積は市公表 約14.3ha と照合。
+# 百人町・黒門町・城番町筋：市の区域図なし（保存地区ではない）→ OSM place=quarter「百人町」の点。
+def ring_area_ha(ring):
+    lat0=math.radians(sum(p[0] for p in ring)/len(ring)); R=6371008.8
+    xy=[(math.radians(p[1])*R*math.cos(lat0),math.radians(p[0])*R) for p in ring]
+    return abs(sum(xy[i][0]*xy[i+1][1]-xy[i+1][0]*xy[i][1] for i in range(len(xy)-1)))/2/10000
+_osm=json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'osm-way-653386294.json'),encoding='utf-8'))
+_nodes={e['id']:(e['lat'],e['lon']) for e in _osm['elements'] if e['type']=='node'}
+_way=next(e for e in _osm['elements'] if e['type']=='way' and e['id']==653386294)
+SHAPE=[_nodes[n] for n in _way['nodes']]; assert SHAPE[0]==SHAPE[-1]
+SHAPE_HA=round(ring_area_ha(SHAPE),2); assert 14.0<=SHAPE_HA<=14.6, SHAPE_HA
+S['407e3a043cef81908bfbec8cb6bf1a75']['display']={'type':'polygon','from':'OSM way/653386294「白壁･主税･撞木エリア」','url':'https://www.openstreetmap.org/way/653386294','ring':[list(p) for p in SHAPE],'areaHa':SHAPE_HA,'checkedAgainst':'名古屋市の指定図（shirakabe_kuiki.pdf）の形、市公表の面積 約14.3ha','checkedOn':'2026-10-30'}
+S['407e3a043cef8178b6c6fc6de1193c6b']['display']={'type':'point','from':'OSM node/9000724197 place=quarter「百人町」','url':'https://www.openstreetmap.org/node/9000724197','lat':35.179602,'lng':136.93315,'checkedAgainst':'市の区域図なし（保存地区ではない）ため町名の代表点','checkedOn':'2026-10-30'}
+for aid in ('407e3a043cef81908bfbec8cb6bf1a75','407e3a043cef8178b6c6fc6de1193c6b'):
+    S[aid]['note']='区域型スポット。点のピン（施設の代表位置）は付けず、区域の形または町名の点で示す（2026-10-30 今西さん決定「形で描けるなら形、無理なら点」）。'; S[aid]['question']=None
 # ---------- compute ----------
 LARGE={'407e3a043cef81139f9df6aaf1d15993','407e3a043cef81afa589ebddc8b95fdb'}  # 徳川園・名古屋城：区域が広い施設（許容差100m）
 for s in S.values():
@@ -169,12 +185,22 @@ for s in conf:
     extra=f",displayName:{json.dumps(s['displayName'],ensure_ascii=False)}" if s.get('displayName') else ''
     L.append(f"  '{s['id']}':Object.freeze({{coordinates:Object.freeze({{lat:{s['pin']['lat']},lng:{s['pin']['lng']}}}),precision:'representative',label:'施設の代表位置',address:{json.dumps(s['official']['address'],ensure_ascii=False)},basis:{json.dumps(basis,ensure_ascii=False)},note:{json.dumps(s['note'],ensure_ascii=False)},officialUrl:{json.dumps(s['official']['sources'][0])},checkedOn:'{on}'{extra}}}),")
 L.append('});')
+L.append('// Areas are drawn apart from the pins: the district as its OSM shape, 百人町 as the OSM quarter point. (c) OpenStreetMap contributors, ODbL.')
+L.append('export const AREA_DISPLAY=Object.freeze({')
+for s in out['spots']:
+    disp=s.get('display')
+    if not disp: continue
+    if disp['type']=='polygon': geo='ring:Object.freeze(['+','.join(f'Object.freeze([{a},{b}])' for a,b in disp['ring'])+f']),areaHa:{disp["areaHa"]}'
+    else: geo=f"coordinates:Object.freeze({{lat:{disp['lat']},lng:{disp['lng']}}})"
+    L.append(f"  '{s['id']}':Object.freeze({{type:'{disp['type']}',{geo},checkedOn:'{disp['checkedOn']}'}}),")
+L.append('});')
 L.append('export const RESEARCH_PENDING=Object.freeze({')
 for s in out['spots']:
     if s['status'] in ('candidate','unresolved'):
         L.append(f"  '{s['id']}':Object.freeze({{state:'{s['status']}',note:{json.dumps(s['note'],ensure_ascii=False)},checkedOn:'{CHECKED}'}}),")
 L.append('});')
 open(sys.argv[3],'w',encoding='utf-8').write('\n'.join(L)+'\n')
+print('area shape ha',SHAPE_HA)
 print('confirmed',sum(s['status']=='confirmed' for s in out['spots']),'owner-confirmed',sum(s['status']=='owner-confirmed' for s in out['spots']),'candidate',sum(s['status']=='candidate' for s in out['spots']),'unresolved',sum(s['status']=='unresolved' for s in out['spots']),'area',sum(s['status']=='area' for s in out['spots']))
 for s in conf:
     if s['status']=='owner-confirmed': print('owner',s['name'],s['pin']['lat'],s['pin']['lng']); continue

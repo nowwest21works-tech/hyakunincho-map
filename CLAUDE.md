@@ -32,11 +32,11 @@ PLAYWRIGHT_MODULE=playwright node tests/hyakunincho-map/artwork-local-v05.cjs
 PLAYWRIGHT_MODULE=playwright node tests/hyakunincho-map/artwork-local-supplement-v05.cjs
 ```
 - ブラウザ試験は Playwright が必要（`npm i -D playwright` → `npx playwright install chromium`）。ブラウザのダウンロードが遮断されたら、その旨を報告する（今西さんが環境のネットワーク設定で許可する）。
-- 試験は**今の仕様（背景地図は最初から表示・スマホは地図が先・ピン20本など）**に合わせて書かれている。座標の試験（coords-browser）は地図タイルを空画像に差し替えて動く。仕様を変えたら試験も新仕様に更新し、何を変えたかPRに書く。
+- 試験は**今の仕様（背景地図は最初から表示・スマホは地図が先・ピン28本など）**に合わせて書かれている。座標の試験（coords-browser）は地図タイルを空画像に差し替えて動く。仕様を変えたら試験も新仕様に更新し、何を変えたかPRに書く。
 - 幅 320 / 390 / 1440 で確認する。スマホ幅（390）を主に見る。
 
 ## 現在地（2026-10-30）
-- ピン20本（調査で確定19＋長屋1）、未確定8、区域2。詳細は `review/coordinate-research-20261029/README.md`。
+- ピン28本（調査で確定19＋今西さん確認8＋長屋1）、未確定0、区域2（2026-10-30 更新）。詳細は `review/coordinate-research-20261029/README.md`。
 - 10/30に今西さんが未確定8件すべてに回答済み・区域の方針も決定 → `review/coordinate-research-20261029/NEXT-STEPS-20261030.md` を必ず読む。
 
 ## やることリスト（上から順に。1PR=1項目）

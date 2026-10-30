@@ -2,7 +2,7 @@ const {chromium}=require(process.env.PLAYWRIGHT_MODULE || 'C:/Users/nowwe/.cache
 const assert=require('node:assert/strict');const fs=require('node:fs/promises');
 const root='http://127.0.0.1:8795/hyakunincho-map/';
 const ownerId='407e3a043cef81b5b765ed86e8b9b6e3';
-const expectedIds=['407e3a043cef81b5b765ed86e8b9b6e3','407e3a043cef81d59e19fe01b74ad602','407e3a043cef81c994bcc245bf043007','407e3a043cef8157869cceda5fc2cff1','407e3a043cef8139b06ac86f7a4d4637','407e3a043cef819ab9abea55c1605d38','407e3a043cef8154a9c5e5776fb9e2ed','407e3a043cef8153a959eb460a672be8','407e3a043cef81139f9df6aaf1d15993','407e3a043cef81afa589ebddc8b95fdb','407e3a043cef8119b898d9a369d142fa','407e3a043cef811f9dbde5cb2fe79ea4','407e3a043cef8125bdb2c9ac406232af'];
+const expectedIds=['407e3a043cef81b5b765ed86e8b9b6e3','407e3a043cef81d59e19fe01b74ad602','407e3a043cef81c994bcc245bf043007','407e3a043cef8157869cceda5fc2cff1','407e3a043cef8139b06ac86f7a4d4637','407e3a043cef819ab9abea55c1605d38','407e3a043cef8154a9c5e5776fb9e2ed','407e3a043cef8153a959eb460a672be8','407e3a043cef81139f9df6aaf1d15993','407e3a043cef81afa589ebddc8b95fdb','407e3a043cef8119b898d9a369d142fa','407e3a043cef811f9dbde5cb2fe79ea4','407e3a043cef8125bdb2c9ac406232af','407e3a043cef812e9f90ece7c12e8d83','407e3a043cef8155acf0f17e950a4f89'];
 // v05 copy of artwork-local.cjs (2026-10-29): identical image/card checks; pin expectations follow the researched pins.
 // The original file is kept unchanged as the v04 record.
 const outDir=process.env.OUT_DIR||'output/playwright-v05';
@@ -12,6 +12,7 @@ const outDir=process.env.OUT_DIR||'output/playwright-v05';
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});const results=[];
  const check=(name,ok)=>{assert.ok(ok,name);results.push({name,pass:true});};
  const raw=JSON.parse(await fs.readFile('public/hyakunincho-map/spots.json','utf8'));
+ for(const s of raw.spots)if(research.RESEARCH_POINTS[s.id]?.displayName)s.name=research.RESEARCH_POINTS[s.id].displayName;
  try{
   for(const width of (process.env.WIDTHS||'320,390,1440').split(',').map(Number)){
    const page=await browser.newPage({viewport:{width,height:width===1440?1000:844}}),errors=[],requests=[];
@@ -49,7 +50,7 @@ const outDir=process.env.OUT_DIR||'output/playwright-v05';
     check(`${width}: rapid keyboard opens intended ${id}`,await page.locator('#detail-title').innerText()===raw.spots.find(s=>s.id===id).name);
     await page.locator('#detail').evaluate(d=>d.scrollTop=d.scrollHeight);await page.click('#close-detail');
    }
-   for(const id of ['407e3a043cef812e9f90ece7c12e8d83','407e3a043cef8155acf0f17e950a4f89','407e3a043cef8142849cee124a2ccebb']){await page.locator(`.spot[data-spot-id="${id}"]`).click();check(`${width}: held/no-source ${id} stays image-free`,await page.locator('.detail-artwork').count()===0);await page.keyboard.press('Escape');}
+   for(const id of ['407e3a043cef8142849cee124a2ccebb']){await page.locator(`.spot[data-spot-id="${id}"]`).click();check(`${width}: held/no-source ${id} stays image-free`,await page.locator('.detail-artwork').count()===0);await page.keyboard.press('Escape');}
    await page.locator(`.spot[data-spot-id="${ownerId}"]`).click();await page.click('.detail-map');
    check(`${width}: address pin and list selected together`,await page.locator(`.spot-pin.selected[data-spot-id="${ownerId}"]`).count()===1&&await page.locator(`.spot[data-spot-id="${ownerId}"][aria-current=true]`).count()===1);
    await page.locator(`.spot-pin[data-spot-id="${ownerId}"]`).click();check(`${width}: address pin opens same illustrated card`,(await page.locator('#detail-title').innerText()).includes('みんなのまほろ場')&&await page.locator('.detail-artwork').count()===1);await page.keyboard.press('Escape');
@@ -68,6 +69,6 @@ const outDir=process.env.OUT_DIR||'output/playwright-v05';
    check(`${width}: no location request; external requests are map tiles only`,await page.evaluate(()=>window.geoCalls===0)&&requests.every(u=>u.startsWith('http://127.0.0.1:8795/')||u.startsWith('https://tile.openstreetmap.org/')));
    check(`${width}: no JS errors`,errors.length===0);await page.close();
   }
-  await fs.writeFile(outDir+'/artwork-v05-results-'+(process.env.WIDTHS||'all').replace(/,/g,'-')+'.json',JSON.stringify({testedAt:new Date().toISOString(),results,checks:results.length,viewports:[320,390,1440],expectedImageCards:13,canonicalSpotCount:30,ownerAddressPins:1,researchedPins:pinIds.size-1},null,2)+'\n');console.log('PASS',results.length,'local-images browser checks');
+  await fs.writeFile(outDir+'/artwork-v05-results-'+(process.env.WIDTHS||'all').replace(/,/g,'-')+'.json',JSON.stringify({testedAt:new Date().toISOString(),results,checks:results.length,viewports:[320,390,1440],expectedImageCards:15,canonicalSpotCount:30,ownerAddressPins:1,researchedPins:pinIds.size-1},null,2)+'\n');console.log('PASS',results.length,'local-images browser checks');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

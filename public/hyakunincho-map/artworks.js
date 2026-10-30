@@ -113,5 +113,21 @@ export const ARTWORKS = Object.freeze(Object.fromEntries(Object.entries({
     "alt": "黄色い外壁と赤い瓦屋根の洋館、庭木を描いた水彩画風イラスト。",
     "caption": "提供イラスト（水彩画風）｜文化のみち橦木館",
     "note": "イラストとしてお楽しみください。現在の様子や、入口・立ち入り位置を確認するための写真ではありません。"
+  },
+  "407e3a043cef812e9f90ece7c12e8d83": {
+    "src": "./artworks/ito-ke-jutaku.png",
+    "width": 1448,
+    "height": 1086,
+    "alt": "板塀の角と、その奥の2階建ての家を描いた水彩画風イラスト。",
+    "caption": "提供イラスト（水彩画風）｜伊藤家住宅",
+    "note": "イラストとしてお楽しみください。現在の様子や、入口・立ち入り位置を確認するための写真ではありません。"
+  },
+  "407e3a043cef8155acf0f17e950a4f89": {
+    "src": "./artworks/kyu-omeiso-mon.png",
+    "width": 1448,
+    "height": 1086,
+    "alt": "格子窓のある長屋門と、その奥の庭を描いた水彩画風イラスト。",
+    "caption": "提供イラスト（水彩画風）｜旧櫻明荘門",
+    "note": "イラストとしてお楽しみください。現在の様子や、入口・立ち入り位置を確認するための写真ではありません。"
   }
 }).map(([id,item])=>[id,Object.freeze(item)])));

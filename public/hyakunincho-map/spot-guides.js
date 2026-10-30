@@ -1,6 +1,6 @@
 // Visitor-facing guide text for each card (2026-10-30). Written in our own words from the official pages in `source`.
 // Hours, closed days and fees are copied from those pages on GUIDES_CHECKED_ON; the card always points to the official site for the latest.
-// spots.json (the Notion export) is not changed: these texts are "Notion反映待ち".
+// spots.json (the Notion export) is not changed here. The lead texts were copied to Notion「紹介文」on 2026-10-30.
 // kind: visit = 中を見学できる施設 / outside = 外から眺める（個人宅・学校・門） / worship = 寺社・教会 / dining = 料亭 / area = 町並み / base = 長屋
 export const GUIDES_CHECKED_ON='2026-10-30';
 const FUTABAKAN='https://www.futabakan.jp/goforastroll/';

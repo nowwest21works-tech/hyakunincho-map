@@ -11,14 +11,14 @@
   - `owner-address-points.js` … 長屋（みんなのまほろ場）の本人確認済み住所点
   - `coordinate-research.js` / `coordinate-research-data.js` … 調査で確定した座標（spots.json に座標が無い行だけに重ねる）
   - `artworks.js` + `artworks/` … 提供イラスト（水彩）とカードの対応
-  - `spot-guides.js` … カードの案内文・開館情報・公式リンク・出典（公式資料から自分の言葉で要約。Notion反映待ち）
+  - `spot-guides.js` … カードの案内文・開館情報・公式リンク・出典（公式資料から自分の言葉で要約。案内文は 2026-10-30 に Notion の「紹介文」へ反映済み）
 - `review/coordinate-research-20261029/` … 座標の出典と照合記録（`research.json`、生成スクリプト `build_research.py`、`README.md`、`NEXT-STEPS-20261030.md`）
 - `review/hyakunincho-map/notion-export.json` … データ試験が使うNotion書き出し
 - `tests/hyakunincho-map/` … 試験（下記）
 
 ## 守ること
 1. **場所や名称を推測で確定しない。** 座標・住所・名称は公式資料（名古屋市・愛知県・各施設）と地図データの照合で決め、`research.json` に出典と確認日を残す。分からない物は今西さんに地図リンク付きで質問する。
-2. **Notionには書き込まない**（このリポジトリからは触れない）。Notionへの反映が必要な変更は PR 本文に「Notion反映待ち」として列挙する。
+2. **Notion（勝手に百人町マップスポットDB）への書き込みは、今西さんの許可のもとで行ってよい**（2026-10-30 許可）。書き込む前に、どの行のどの欄を変えるかを今西さんに伝える。公開判断・訪問状況・掲載区分は、今西さんの指示がない限り変えない。書いた内容はPR本文に「Notionに反映済み」として、まだの物は「Notion反映待ち」として列挙する。
 3. 画面の文言は**来訪者向け**。制作側の事情（「訪問記録ではない」「公開判断待ち」「入口ではない」等の言い訳）は画面に出さず、README や research.json に置く。マナー（個人宅・学校は道路から見る、等）だけは短く伝える。
 4. 個人宅・学校・寺社は「外から眺める」前提の案内にする。
 5. 地図の帰属表示（OpenStreetMap／使う背景地図の出典）を必ず表示する。
@@ -39,6 +39,7 @@ PLAYWRIGHT_MODULE=playwright node tests/hyakunincho-map/artwork-local-supplement
 ## 現在地（2026-10-30）
 - ピン28本（調査で確定19＋今西さん確認8＋長屋1）、未確定0、区域2（保存地区は形、百人町は町名ラベル。2026-10-30 更新）。詳細は `review/coordinate-research-20261029/README.md`。
 - 10/30に今西さんが未確定8件すべてに回答済み・区域の方針も決定 → `review/coordinate-research-20261029/NEXT-STEPS-20261030.md` を必ず読む。
+- 2026-10-30 Notion に反映済み：拡大図Jの名称「旧櫻明荘門」、今西さん確認の8地点の緯度・経度・確認日・確認メモ、30行の紹介文。リポジトリの `spots.json` はまだ 10/29 の書き出しのまま（次に `import.mjs` で書き出し直すと、8地点の座標とJの名称が入る。そのときは試験「canonical export untouched: all coordinates null」などを新しい書き出しに合わせて直す）。
 
 ## やることリスト（上から順に。1PR=1項目）
 1. **GitHub Pages で公開できるようにする**：`public/` を配信する GitHub Actions ワークフローを追加。公開URLは `https://<ユーザー名>.github.io/<リポジトリ名>/hyakunincho-map/`。`index.html` の `noindex` とCSP（背景地図のタイル配信元）を公開用に見直す。トップ（`public/index.html`）から地図へ飛べるようにする。

@@ -11,12 +11,12 @@ const fs=require('node:fs');const assert=require('node:assert/strict');
    await page.locator('.spot[data-spot-id="'+id+'"]').click();
    const image=page.locator('.detail-artwork img').last();await image.evaluate(i=>i.decode());
    await image.evaluate(i=>{const d=document.querySelector('#detail');d.scrollTop+=i.getBoundingClientRect().top-d.getBoundingClientRect().top-95;});
-   assert.ok(await image.evaluate(i=>{const r=i.getBoundingClientRect(),d=document.querySelector('#detail').getBoundingClientRect();return r.top>=d.top&&r.bottom<=d.bottom&&i.naturalWidth===2400&&i.naturalHeight===1792;}));
+   assert.ok(await image.evaluate(i=>{const r=i.getBoundingClientRect(),d=document.querySelector('#detail').getBoundingClientRect();return r.top>=d.top&&r.bottom<=d.bottom&&i.naturalWidth===1600&&i.naturalHeight===1195;}));
    await page.screenshot({path:(process.env.OUT_DIR||'output/playwright-v05')+'/'+slug+'-full-'+width+'.png'});
    await page.click('#close-detail');assert.equal(await page.locator('#detail').evaluate(d=>d.open),false);
    results.push({width,spot:id,imageFullyVisible:true,close:true});
   }
-  await page.route('**/futabakan-exterior.PNG',r=>r.fulfill({status:404,body:''}));
+  await page.route('**/futabakan-exterior.webp',r=>r.fulfill({status:404,body:''}));
   await page.locator('.spot[data-spot-id="407e3a043cef8157869cceda5fc2cff1"]').click();
   await page.waitForFunction(()=>document.querySelectorAll('.detail-artwork figcaption')[1]?.textContent.includes('読み込めません'));
   assert.ok(await page.locator('.detail-artwork img').first().evaluate(i=>i.decode().then(()=>i.naturalWidth>0)));

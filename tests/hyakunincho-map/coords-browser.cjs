@@ -100,8 +100,8 @@ const mod=f=>import(pathToFileURL(path.resolve('public/hyakunincho-map',f)).href
   await page.locator('.spot[data-spot-id="407e3a043cef81078526d95c5803e78a"]').click();await page.screenshot({path:`${outDir}/detail-haruta-${width}.png`});
   check(`${width}: no horizontal overflow (page and dialog)`,await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)&&await page.locator('#detail').evaluate(d=>d.scrollWidth<=d.clientWidth));await page.keyboard.press('Escape');
   await page.screenshot({path:`${outDir}/list-${width}.png`});
-  const ct=await page.evaluate(async()=>(await fetch('./artworks/kenchuji.PNG',{method:'HEAD'})).headers.get('content-type'));
-  check(`${width}: uppercase .PNG served as image/png`,ct==='image/png');
+  const ct=await page.evaluate(async()=>(await fetch('./artworks/kenchuji.webp',{method:'HEAD'})).headers.get('content-type'));
+  check(`${width}: light .webp served as image/webp`,ct==='image/webp');
   check(`${width}: no location request; external requests are map tiles only`,await page.evaluate(()=>window.geoCalls===0)&&requests.every(u=>u.startsWith('http://127.0.0.1:8795/')||u.startsWith('https://tile.openstreetmap.org/')));
   check(`${width}: no JS errors`,errors.length===0);await page.close();
  }

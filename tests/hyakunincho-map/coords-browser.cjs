@@ -18,7 +18,14 @@ const mod=f=>import(pathToFileURL(path.resolve('public/hyakunincho-map',f)).href
   const mobile=width<761;const page=await browser.newPage({viewport:{width,height:mobile?844:1000}}),errors=[],requests=[];
   page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));
   await page.addInitScript(()=>{window.geoCalls=0;Object.defineProperty(navigator,'geolocation',{value:{getCurrentPosition(ok,fail){window.geoCalls++;fail({code:1});}}});});
+  // Background tiles load by default (2026-10-30): serve a blank tile so the test needs no network.
+  await page.route('https://tile.openstreetmap.org/**',r=>r.fulfill({contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=','base64')}));
   await page.goto(root);await page.waitForFunction(()=>document.querySelectorAll('.spot').length===30);
+  check(`${width}: background map shown without a consent step`,await page.locator('#map-consent').count()===0&&await page.locator('.leaflet-tile').count()>0&&requests.some(u=>u.startsWith('https://tile.openstreetmap.org/')));
+  if(mobile)check(`${width}: map view is the default, list hidden`,await page.locator('#map').isVisible()&&!(await page.locator('#list-panel').isVisible())&&await page.locator('#show-map').getAttribute('aria-pressed')==='true');
+  if(mobile)check(`${width}: map starts inside the first screen`,await page.locator('#map').evaluate(e=>e.getBoundingClientRect().top<innerHeight/2));
+  await page.waitForTimeout(400);
+  check(`${width}: first view fits all 20 pins inside the map`,await page.$$eval('.spot-pin',(els)=>{const m=document.querySelector('#map').getBoundingClientRect();return els.length===20&&els.every(e=>{const r=e.getBoundingClientRect();return r.left>=m.left-1&&r.right<=m.right+1&&r.top>=m.top-1&&r.bottom<=m.bottom+1;});}));
   check(`${width}: 30 cards and 20 pins (owner 1 + researched 19)`,await page.locator('.spot').count()===30&&await page.locator('.spot-pin').count()===20);
   check(`${width}: data note counts`,(await page.locator('#data-note').innerText()).includes('地図に表示できる地点 20 件（調べて確かめた施設の代表位置 19 件・本人確認済み住所参考点 1 件）／座標未確定 8 件・区域 2 件'));
   // Pin label on each marker == badge on the matching card; pins exist only for the expected ids.
@@ -78,7 +85,7 @@ const mod=f=>import(pathToFileURL(path.resolve('public/hyakunincho-map',f)).href
   await page.screenshot({path:`${outDir}/list-${width}.png`});
   const ct=await page.evaluate(async()=>(await fetch('./artworks/kenchuji.PNG',{method:'HEAD'})).headers.get('content-type'));
   check(`${width}: uppercase .PNG served as image/png`,ct==='image/png');
-  check(`${width}: no location request or external connection`,await page.evaluate(()=>window.geoCalls===0)&&requests.every(u=>u.startsWith('http://127.0.0.1:8795/')));
+  check(`${width}: no location request; external requests are map tiles only`,await page.evaluate(()=>window.geoCalls===0)&&requests.every(u=>u.startsWith('http://127.0.0.1:8795/')||u.startsWith('https://tile.openstreetmap.org/')));
   check(`${width}: no JS errors`,errors.length===0);await page.close();
  }
  await fs.writeFile(outDir+'/coords-browser-results.json',JSON.stringify({testedAt:new Date().toISOString(),checks:results.length,viewports:[320,390,1440],pins:20,researched:19,pending:8,areas:2,results},null,2)+'\n');console.log('PASS',results.length,'coordinate browser checks');

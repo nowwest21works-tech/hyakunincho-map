@@ -5,7 +5,8 @@ const fs=require('node:fs');const assert=require('node:assert/strict');
  const browser=await chromium.launch({headless:true});const results=[];
  try{for(const width of (process.env.WIDTHS||'320,390,1440').split(',').map(Number)){
   const page=await browser.newPage({viewport:{width,height:width===1440?1000:844}});
-  await page.goto('http://127.0.0.1:8795/hyakunincho-map/');await page.waitForSelector('.spot');
+  await page.goto('http://127.0.0.1:8795/hyakunincho-map/');await page.waitForSelector('.spot',{state:'attached'});
+  if(width!==1440)await page.click('#show-list');
   for(const [id,slug] of [['407e3a043cef8119b898d9a369d142fa','kenchuji'],['407e3a043cef811f9dbde5cb2fe79ea4','ceramics'],['407e3a043cef8125bdb2c9ac406232af','shumokukan'],['407e3a043cef8157869cceda5fc2cff1','futabakan']]){
    await page.locator('.spot[data-spot-id="'+id+'"]').click();
    const image=page.locator('.detail-artwork img').last();await image.evaluate(i=>i.decode());

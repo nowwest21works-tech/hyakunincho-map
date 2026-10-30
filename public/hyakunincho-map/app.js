@@ -3,7 +3,7 @@ import { applyResearchPoints, researchPointFor, pendingResearchFor } from './coo
 import { ARTWORKS } from './artworks.js';
 import { THEMES, STATUSES, selectSpots, validateSnapshot } from './model.js';
 const $=id=>document.getElementById(id);
-const state={data:null,selected:null,map:null,markers:new Map(),tiles:null,view:'list',location:null,locationCircle:null,locationRequest:0,loading:false,tileFailed:false};
+const state={data:null,selected:null,map:null,markers:new Map(),tiles:null,view:'map',location:null,locationCircle:null,locationRequest:0,loading:false,tileFailed:false};
 function node(tag,text,className) { const el=document.createElement(tag); if(text!==undefined)el.textContent=text; if(className)el.className=className; return el; }
 // Stable pin label shared by the list card and the map pin: the official course number or enlarged-map letter.
 function pinLabel(spot){
@@ -115,23 +115,23 @@ function initMap(){
     const zoomClass=()=>{$('map').dataset.zoom=state.map.getZoom()>=17?'near':'far';};state.map.on('zoomend',zoomClass);zoomClass();
     const zoom=document.querySelector('.leaflet-control-zoom');
     zoom.querySelector('.leaflet-control-zoom-in').setAttribute('aria-label','地図を拡大');zoom.querySelector('.leaflet-control-zoom-out').setAttribute('aria-label','地図を縮小');
+    showTiles();
   }catch{
     $('map').replaceChildren(node('p','地図を準備できませんでした。一覧からすべてのスポットを読めます。'));
-    $('map-consent').hidden=true;$('enable-map').disabled=true;$('locate').disabled=true;$('fit').disabled=true;
+    $('locate').disabled=true;$('fit').disabled=true;
     $('map-status').textContent='地図を利用できません。一覧をお使いください。';
   }
 }
-$('enable-map').addEventListener('click',()=>{
-  if(!state.map||state.tiles)return;
-  $('map-consent').hidden=true;
+function showTiles(){
   state.tiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
   state.tiles.on('tileerror',()=>{state.tileFailed=true;$('map-status').textContent='背景地図を読み込めませんでした。一覧・詳細カードは引き続き使えます。';});
   state.tiles.addTo(state.map);
-});
-$('fit').addEventListener('click',()=>{
+}
+function fitPins(){
   if(!state.map)return;const points=visibleSpots().filter(s=>s.coordinates).map(s=>[s.coordinates.lat,s.coordinates.lng]);
   if(points.length)state.map.fitBounds(points,{padding:[40,40],maxZoom:16});else state.map.setView([35.183,136.926],14);mapMessage();
-});
+}
+$('fit').addEventListener('click',fitPins);
 function clearLocation(){
   state.locationRequest++;state.location?.remove();state.locationCircle?.remove();state.location=null;state.locationCircle=null;
   $('clear-location').hidden=true;$('locate').disabled=false;$('location-status').textContent='現在地を消しました。取得中の結果も表示しません。';
@@ -168,8 +168,9 @@ async function reload(){
       if(Date.parse(data.retrievedAt)<Date.parse(state.data.retrievedAt))throw new Error('Stale data');
       const ids=new Set(data.spots.map(s=>s.id));if(state.data.spots.some(s=>!ids.has(s.id)))throw new Error('Missing IDs');
     }
-    const keepDetail=$('detail').open&&state.selected;
+    const keepDetail=$('detail').open&&state.selected,first=!state.data;
     state.data=data;render();
+    if(first)fitPins();
     if(keepDetail&&state.selected)select(state.selected,'reload');
     $('load-status').textContent=`${data.spots.length} 件を読み込みました。取得：${new Date(data.retrievedAt).toLocaleString('ja-JP',{timeZone:'Asia/Tokyo'})} JST · ${data.inputVersion}`;
   }catch{

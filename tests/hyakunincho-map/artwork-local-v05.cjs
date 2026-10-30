@@ -18,6 +18,7 @@ const outDir=process.env.OUT_DIR||'output/playwright-v05';
    page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));
    await page.addInitScript(()=>{window.geoCalls=0;Object.defineProperty(navigator,'geolocation',{value:{getCurrentPosition(ok,fail){window.geoCalls++;fail({code:1});}}});});
    await page.goto(root);await page.waitForFunction(()=>document.querySelectorAll('.spot').length===30);
+   if(width!==1440)await page.click('#show-list');
    check(`${width}: all30, pins = owner 1 + researched ${pinIds.size-1}`,await page.locator('.spot').count()===30&&await page.locator('.spot-pin').count()===pinIds.size);
    check(`${width}: owner-reference label shown`,(await page.locator(`.spot[data-spot-id="${ownerId}"]`).innerText()).includes('本人確認済み住所参考点'));
    check(`${width}: no background image prefetch`,!requests.some(u=>u.includes('/artworks/')));
@@ -64,7 +65,7 @@ const outDir=process.env.OUT_DIR||'output/playwright-v05';
    const injected=structuredClone(raw);injected.spots.find(s=>s.id===ownerId).description='<img src=x onerror="window.injected=true">';
    await page.route('**/hyakunincho-map/spots.json',r=>r.fulfill({json:injected}));await page.click('#reload');await page.waitForFunction(()=>document.querySelector('#load-status').textContent.includes('30 件を読み込みました'));
    await page.locator(`.spot[data-spot-id="${ownerId}"]`).click();check(`${width}: description injection is text alongside trusted artwork`,await page.locator('.detail-description img').count()===0&&await page.evaluate(()=>!window.injected)&&await page.locator('.detail-description').innerText()==='<img src=x onerror="window.injected=true">');await page.keyboard.press('Escape');
-   check(`${width}: no location request or external connection`,await page.evaluate(()=>window.geoCalls===0)&&requests.every(u=>u.startsWith('http://127.0.0.1:8795/')));
+   check(`${width}: no location request; external requests are map tiles only`,await page.evaluate(()=>window.geoCalls===0)&&requests.every(u=>u.startsWith('http://127.0.0.1:8795/')||u.startsWith('https://tile.openstreetmap.org/')));
    check(`${width}: no JS errors`,errors.length===0);await page.close();
   }
   await fs.writeFile(outDir+'/artwork-v05-results-'+(process.env.WIDTHS||'all').replace(/,/g,'-')+'.json',JSON.stringify({testedAt:new Date().toISOString(),results,checks:results.length,viewports:[320,390,1440],expectedImageCards:13,canonicalSpotCount:30,ownerAddressPins:1,researchedPins:pinIds.size-1},null,2)+'\n');console.log('PASS',results.length,'local-images browser checks');

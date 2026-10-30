@@ -31,6 +31,7 @@ node scripts/hyakunincho-map/serve.mjs 8795 &      # 別プロセスで起動
 PLAYWRIGHT_MODULE=playwright node tests/hyakunincho-map/coords-browser.cjs
 PLAYWRIGHT_MODULE=playwright node tests/hyakunincho-map/artwork-local-v05.cjs
 PLAYWRIGHT_MODULE=playwright node tests/hyakunincho-map/artwork-local-supplement-v05.cjs
+PLAYWRIGHT_MODULE=playwright node tests/hyakunincho-map/location-browser.cjs
 ```
 - ブラウザ試験は Playwright が必要（`npm i -D playwright` → `npx playwright install chromium`）。ブラウザのダウンロードが遮断されたら、その旨を報告する（今西さんが環境のネットワーク設定で許可する）。
 - 試験は**今の仕様（背景地図は最初から表示・スマホは地図が先・ピン28本など）**に合わせて書かれている。座標の試験（coords-browser）は地図タイルを空画像に差し替えて動く。仕様を変えたら試験も新仕様に更新し、何を変えたかPRに書く。
@@ -45,7 +46,7 @@ PLAYWRIGHT_MODULE=playwright node tests/hyakunincho-map/artwork-local-supplement
 1. **GitHub Pages で公開できるようにする**：`public/` を配信する GitHub Actions ワークフローを追加。公開URLは `https://<ユーザー名>.github.io/<リポジトリ名>/hyakunincho-map/`。`index.html` の `noindex` とCSP（背景地図のタイル配信元）を公開用に見直す。トップ（`public/index.html`）から地図へ飛べるようにする。
 2. ~~**未確定8件の確定と画像2枚**~~（2026-10-30 済み）：NEXT-STEPS の回答どおり8地点に座標を付ける（`build_research.py` を更新して再生成）。拡大図Jの表示名は「旧櫻明荘門」。`incoming-images/` の2枚を伊藤家住宅・旧櫻明荘門のカードに紐づける。
 3. ~~**区域の表示**~~（2026-10-30 済み。区域はピンに数えない）：白壁・主税・橦木町並み保存地区は OSM way/653386294 の形で塗る（市の指定図・面積14.3haと照合済み）。百人町・黒門町・城番町筋は点。
-4. **スマホ優先の作り直し**（背景地図の最初からの表示・同意ボタン廃止・スマホで地図を先に出す、は 2026-10-30 に済み）：背景地図を最初から表示（同意ボタンは廃止）。地図を主役に、一覧は下（またはボトムシート）。ピン↔カード連動は維持。現在地ボタンで現在地へ移動、近い順に並べ替え。
+4. ~~**スマホ優先の作り直し**~~（2026-10-30 済み。現在地ボタンは長屋から5km以内なら現在地へ移動し、一覧を現在地から近い順に。消すと長屋から近い順に戻る）：背景地図を最初から表示（同意ボタンは廃止）。地図を主役に、一覧は下（またはボトムシート）。ピン↔カード連動は維持。現在地ボタンで現在地へ移動、近い順に並べ替え。
 5. ~~**カードの中身を充実**~~（2026-10-30 済み。堀美術館の公式サイトは接続できず、二葉館の紹介ページにリンク）：説明文を公式資料（二葉館「周辺散策」・名古屋市の建築物紹介・名古屋コンシェルジュ）から自分の言葉で要約し、出典を残す。開館時間・休館日・料金（公開施設のみ）、**公式サイトへのリンク**、**Googleマップで道順**（徒歩）リンクを付ける。公式サイトの候補一覧は NEXT-STEPS にある（リンク切れは必ず確認）。
 6. ~~**文言の全面見直し**~~（2026-10-30 済み。一覧は長屋から近い順）：上の「守ること3」に沿って、画面の言い訳文言を削り、来訪者が歩きたくなる短い言葉にする。
 7. **画像の軽量化**：原画は 1枚7〜8MB のPNG。スマホ用に幅1600px程度のWebP/JPEG（目安300KB以下）を作って表示に使う。原画は `artworks/original/` に残すか、別途保管するか今西さんに確認。

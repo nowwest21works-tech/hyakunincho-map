@@ -21,7 +21,7 @@ const outDir=process.env.OUT_DIR||'output/playwright-v05';
    await page.goto(root);await page.waitForFunction(()=>document.querySelectorAll('.spot').length===30);
    if(width!==1440)await page.click('#show-list');
    check(`${width}: all30, pins = owner 1 + researched ${pinIds.size-1}`,await page.locator('.spot').count()===30&&await page.locator('.spot-pin').count()===pinIds.size);
-   check(`${width}: owner-reference label shown`,(await page.locator(`.spot[data-spot-id="${ownerId}"]`).innerText()).includes('本人確認済み住所参考点'));
+   check(`${width}: nagaya card is first and marked as the starting point`,(await page.locator('.spot').first().getAttribute('data-spot-id'))===ownerId&&(await page.locator(`.spot[data-spot-id="${ownerId}"]`).innerText()).includes('出発点'));
    check(`${width}: no background image prefetch`,!requests.some(u=>u.includes('/artworks/')));
    for(let cycle=0;cycle<2;cycle++)for(const id of expectedIds){
     await page.locator(`.spot[data-spot-id="${id}"]`).click();
@@ -29,7 +29,7 @@ const outDir=process.env.OUT_DIR||'output/playwright-v05';
     check(`${width}: ${id} cycle${cycle} starts with full heading visible`,await page.locator('#detail-title').evaluate(t=>{const d=document.querySelector('#detail').getBoundingClientRect(),r=t.getBoundingClientRect();return r.top>=d.top&&r.bottom<=d.bottom;}));
     check(`${width}: ${id} cycle${cycle} correct card and whole illustration`,await page.locator('#detail-title').innerText()===raw.spots.find(s=>s.id===id).name&&await page.locator('.detail-artwork img').first().evaluate(i=>Math.abs(i.getBoundingClientRect().width/i.getBoundingClientRect().height-i.naturalWidth/i.naturalHeight)<.01));
     check(`${width}: ${id} cycle${cycle} alt/caption and no overflow`,await page.locator('.detail-artwork img').first().getAttribute('alt')&& (await page.locator('.detail-artwork figcaption').first().innerText()).includes('提供イラスト')&&await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)&&await page.locator('#detail').evaluate(d=>d.scrollWidth<=d.clientWidth));
-    if(id===ownerId&&cycle===0){check(`${width}: address and limitations accurate`,(await page.locator('#detail-content').innerText()).includes('百人町100')&&(await page.locator('#detail-content').innerText()).includes('入口の実測・公道からの動線は未確認'));}
+    if(id===ownerId&&cycle===0){check(`${width}: nagaya address shown`,(await page.locator('#detail-content').innerText()).includes('百人町100'));}
     if((id===ownerId||id==='407e3a043cef8157869cceda5fc2cff1')&&cycle===0)await page.screenshot({path:`${outDir}/detail-${id===ownerId?'nagaya':'stairs'}-${width}.png`});
     await page.keyboard.press('Escape');
    }
@@ -57,15 +57,15 @@ const outDir=process.env.OUT_DIR||'output/playwright-v05';
    if(width!==1440)await page.click('#show-list');
    for(const theme of ['歴史・建築','町並み・路地','寺社・信仰','文化・美術','飲食・喫茶','公園・自然','百人町活動']){await page.selectOption('#theme',theme);check(`${width}: theme ${theme} exact count and matching pins`,await page.locator('.spot').count()===raw.spots.filter(s=>s.theme===theme).length&&await page.locator('.spot-pin').count()===raw.spots.filter(s=>s.theme===theme&&pinIds.has(s.id)).length);}
    await page.fill('#search','存在しない検証語');check(`${width}: zero-result list and pins0`,await page.locator('#empty').isVisible()&&await page.locator('.spot-pin').count()===0);await page.click('#empty-reset');
-   await page.click('#reload');await page.waitForFunction(()=>document.querySelector('#load-status').textContent.includes('30 件を読み込みました'));
+   await page.evaluate(()=>document.getElementById('reload').click());await page.waitForFunction(()=>document.querySelector('#load-status').textContent.includes('30 か所を読み込みました'));
    check(`${width}: reload retains same pins, no duplicates`,await page.locator('.spot').count()===30&&await page.locator('.spot-pin').count()===pinIds.size);
-   await page.route('**/hyakunincho-map/spots.json',r=>r.fulfill({status:503,body:''}));await page.click('#reload');await page.waitForFunction(()=>document.querySelector('#load-status').textContent.includes('失敗'));
+   await page.route('**/hyakunincho-map/spots.json',r=>r.fulfill({status:503,body:''}));await page.evaluate(()=>document.getElementById('reload').click());await page.waitForFunction(()=>document.querySelector('#load-status').textContent.includes('失敗'));
    check(`${width}: failed data refresh retains all30 and pins`,await page.locator('.spot').count()===30&&await page.locator('.spot-pin').count()===pinIds.size);await page.unroute('**/hyakunincho-map/spots.json');
    await page.route('**/artworks/*',r=>r.fulfill({status:200,contentType:'image/png',body:'broken image'}));await page.locator(`.spot[data-spot-id="${ownerId}"]`).click();await page.waitForFunction(()=>document.querySelector('.detail-artwork figcaption')?.textContent.includes('読み込めません'));
    check(`${width}: missing illustration leaves detail and close usable`,await page.locator('#detail-title').isVisible()&&await page.locator('#close-detail').isVisible());await page.keyboard.press('Escape');await page.unroute('**/artworks/*');
-   const injected=structuredClone(raw);injected.spots.find(s=>s.id===ownerId).description='<img src=x onerror="window.injected=true">';
-   await page.route('**/hyakunincho-map/spots.json',r=>r.fulfill({json:injected}));await page.click('#reload');await page.waitForFunction(()=>document.querySelector('#load-status').textContent.includes('30 件を読み込みました'));
-   await page.locator(`.spot[data-spot-id="${ownerId}"]`).click();check(`${width}: description injection is text alongside trusted artwork`,await page.locator('.detail-description img').count()===0&&await page.evaluate(()=>!window.injected)&&await page.locator('.detail-description').innerText()==='<img src=x onerror="window.injected=true">');await page.keyboard.press('Escape');
+   const injected=structuredClone(raw);injected.spots.find(s=>s.id===ownerId).name='<img src=x onerror="window.injected=true">';
+   await page.route('**/hyakunincho-map/spots.json',r=>r.fulfill({json:injected}));await page.evaluate(()=>document.getElementById('reload').click());await page.waitForFunction(()=>document.querySelector('#load-status').textContent.includes('30 か所を読み込みました'));
+   await page.locator(`.spot[data-spot-id="${ownerId}"]`).click();check(`${width}: name injection is text alongside trusted artwork`,await page.locator('#detail-title img').count()===0&&await page.evaluate(()=>!window.injected)&&await page.locator('#detail-title').innerText()==='<img src=x onerror="window.injected=true">'&&await page.locator('.detail-artwork img').count()===1);await page.keyboard.press('Escape');
    check(`${width}: no location request; external requests are map tiles only`,await page.evaluate(()=>window.geoCalls===0)&&requests.every(u=>u.startsWith('http://127.0.0.1:8795/')||u.startsWith('https://tile.openstreetmap.org/')));
    check(`${width}: no JS errors`,errors.length===0);await page.close();
   }

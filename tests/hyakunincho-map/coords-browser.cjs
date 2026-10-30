@@ -28,7 +28,7 @@ const mod=f=>import(pathToFileURL(path.resolve('public/hyakunincho-map',f)).href
   await page.waitForTimeout(400);
   check(`${width}: first view fits all 28 pins inside the map`,await page.$$eval('.spot-pin',(els)=>{const m=document.querySelector('#map').getBoundingClientRect();return els.length===28&&els.every(e=>{const r=e.getBoundingClientRect();return r.left>=m.left-1&&r.right<=m.right+1&&r.top>=m.top-1&&r.bottom<=m.bottom+1;});}));
   check(`${width}: 30 cards and 28 pins (owner 1 + researched 27)`,await page.locator('.spot').count()===30&&await page.locator('.spot-pin').count()===28);
-  check(`${width}: data note counts`,(await page.locator('#data-note').innerText()).includes('地図に表示できる地点 28 件（調べて確かめた施設の代表位置 27 件・本人確認済み住所参考点 1 件）／座標未確定 0 件・区域 2 件'));
+  check(`${width}: summary counts places`,(await page.locator('#counts').innerText())==='30 か所'&&await page.locator('#data-note').count()===0&&await page.locator('#load-status.quiet').count()===1&&await page.locator('#reload').isHidden());
   // Pin label on each marker == badge on the matching card; pins exist only for the expected ids.
   const pinMap=await page.$$eval('.spot-pin',els=>els.map(e=>[e.dataset.spotId,e.textContent.trim()]));
   const badgeMap=await page.$$eval('.spot',els=>els.filter(e=>e.querySelector('.pin-badge')).map(e=>[e.dataset.spotId,e.querySelector('.pin-badge').textContent.trim()]));
@@ -41,8 +41,10 @@ const mod=f=>import(pathToFileURL(path.resolve('public/hyakunincho-map',f)).href
    if(mobile)await page.click('#show-list');
    current=`${width} card ${id}`;await page.locator(`.spot[data-spot-id="${id}"]`).click();await page.waitForFunction(n=>document.querySelector('#detail-title')?.textContent===n,byId.get(id).name);
    const text=await page.locator('#detail-content').innerText();
-   if(id===ownerId)check(`${width}: ${id} owner reference intact`,text.includes('百人町100')&&text.includes('入口の実測・公道からの動線は未確認'));
-   else check(`${width}: ${id} shows address, basis, not-entrance and checked date`,text.includes('所在地：')&&text.includes('座標の根拠：'+RESEARCH_POINTS[id].basis)&&text.includes('入口の位置ではありません')&&text.includes('確認日 '+RESEARCH_POINTS[id].checkedOn)&&text.includes('施設の代表位置'));
+   const route=await page.locator('.detail-route').getAttribute('href'),c=id===ownerId?{lat:35.1791705,lng:136.9326514}:RESEARCH_POINTS[id].coordinates;
+   check(`${width}: ${id} detail has walking directions to the pin`,route===`https://www.google.com/maps/dir/?api=1&destination=${c.lat},${c.lng}&travelmode=walking`);
+   if(id===ownerId)check(`${width}: ${id} nagaya address shown`,text.includes('百人町100'));
+   else if(/^名古屋市/.test(RESEARCH_POINTS[id].address))check(`${width}: ${id} shows address`,text.includes(RESEARCH_POINTS[id].address));
    await page.click('.detail-map');await page.waitForFunction(id=>{const d=document.querySelector('#detail'),m=document.querySelector('#map').getBoundingClientRect(),e=document.querySelector(`.spot-pin[data-spot-id="${id}"]`);if(d.open||!e||document.querySelector('#map').dataset.zoom!=='near')return false;const r=e.getBoundingClientRect(),x=r.left+r.width/2-m.left,y=r.bottom-m.top,ok=Math.abs(x-m.width/2)<6&&Math.abs(y-m.height/2)<10,k=x+','+y;const prev=window.__pinStable;window.__pinStable=k;return ok&&prev===k;},id,{polling:120});
    check(`${width}: ${id} map view at zoom 18 with full-size selected pin`,await page.locator(`.spot-pin.selected[data-spot-id="${id}"]`).count()===1&&await page.locator(`.spot-pin[data-spot-id="${id}"]`).evaluate(e=>Math.round(e.getBoundingClientRect().width))===44);
    current=`${width} pin ${id}`;await page.locator(`.spot-pin[data-spot-id="${id}"]`).click({timeout:8000});await page.waitForFunction(()=>document.querySelector('#detail').open);
@@ -56,7 +58,7 @@ const mod=f=>import(pathToFileURL(path.resolve('public/hyakunincho-map',f)).href
    await card.click();const t=await page.locator('#detail-content').innerText();
    check(`${width}: ${id} pending detail shows reason/date and no map button`,t.includes('座標の確認状況：')&&t.includes('確認日 '+RESEARCH_CHECKED_ON)&&await page.locator('.detail-map').count()===0);await page.keyboard.press('Escape');
   }
-  for(const id of areaIds)check(`${width}: area ${id} has no pin/badge`,await page.locator(`.spot-pin[data-spot-id="${id}"]`).count()===0&&(await page.locator(`.spot[data-spot-id="${id}"]`).innerText()).includes('区域・表示方法未確定'));
+  for(const id of areaIds)check(`${width}: area ${id} has no pin/badge`,await page.locator(`.spot-pin[data-spot-id="${id}"]`).count()===0&&(await page.locator(`.spot[data-spot-id="${id}"]`).innerText()).includes('町並み'));
   // Name <-> illustration correspondence is unchanged for all 13 illustrated cards.
   for(const [id,a] of Object.entries(ARTWORKS)){
    await page.locator(`.spot[data-spot-id="${id}"]`).click();await page.waitForFunction(()=>document.querySelector('.detail-artwork img')?.naturalWidth>0);
@@ -65,12 +67,18 @@ const mod=f=>import(pathToFileURL(path.resolve('public/hyakunincho-map',f)).href
    check(`${width}: ${byId.get(id).name} image(s) and captions unchanged`,await page.locator('#detail-title').innerText()===byId.get(id).name&&imgs.length===expected.length&&expected.every((e,i)=>imgs[i].src===e.src&&imgs[i].alt===e.alt&&caps[i]===e.caption));
    await page.keyboard.press('Escape');
   }
+  // Visitor-facing wording (2026-10-30): no maker-side excuses on the page or in any card.
+  {const banned=['訪問記録','訪問状況','座標未確定','座標確認','座標の根拠','入口の位置','本人確認','住所参考点','公開前','外部公開','試作','確かめること','掲載区分','未照合','名称要照合'];
+   const texts=[await page.locator('body').innerText()];
+   for(const s of raw.spots){await page.locator(`.spot[data-spot-id="${s.id}"]`).click();await page.waitForFunction(()=>document.querySelector('#detail').open);texts.push(await page.locator('#detail-content').innerText());
+    check(`${width}: ${s.id} card has a guide text and a source link`,(await page.locator('.detail-description').innerText()).length>=30&&await page.locator('.detail-source a').count()===(s.id===ownerId?0:1));await page.keyboard.press('Escape');}
+   const hits=banned.filter(w=>texts.some(t=>t.includes(w)));check(`${width}: no maker-side wording on screen (${hits.join(',')})`,hits.length===0);}
   // Filters keep list and pins in step.
   for(const theme of ['歴史・建築','町並み・路地','寺社・信仰','文化・美術','飲食・喫茶','公園・自然','百人町活動']){
    await page.selectOption('#theme',theme);
    const visible=await page.$$eval('.spot',els=>els.map(e=>e.dataset.spotId));const pins=await page.$$eval('.spot-pin',els=>els.map(e=>e.dataset.spotId));
    const exp=raw.spots.filter(s=>s.theme===theme);
-   check(`${width}: theme ${theme} cards ${exp.length}, pins match visible confirmed`,visible.length===exp.length&&pins.length===exp.filter(s=>pinIds.includes(s.id)).length&&pins.every(p=>visible.includes(p))&&(await page.locator('#counts').innerText()).includes(`ピン ${pins.length} 件`));
+   check(`${width}: theme ${theme} cards ${exp.length}, pins match visible confirmed`,visible.length===exp.length&&pins.length===exp.filter(s=>pinIds.includes(s.id)).length&&pins.every(p=>visible.includes(p))&&(await page.locator('#counts').innerText()).startsWith(`${visible.length} か所`));
   }
   await page.selectOption('#theme','');await page.fill('#search','寺');
   { const visible=await page.$$eval('.spot',els=>els.map(e=>e.dataset.spotId));const pins=await page.$$eval('.spot-pin',els=>els.map(e=>e.dataset.spotId));

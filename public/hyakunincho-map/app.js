@@ -1,7 +1,9 @@
-import { applyOwnerAddressPoints, ownerAddressPointFor } from './owner-address-points.js';
-import { applyResearchPoints, researchPointFor, pendingResearchFor } from './coordinate-research.js';
+import { applyOwnerAddressPoints, ownerAddressPointFor, OWNER_ADDRESS_POINTS } from './owner-address-points.js';
+import { applyResearchPoints, researchPointFor } from './coordinate-research.js';
 import { ARTWORKS } from './artworks.js';
-import { THEMES, STATUSES, selectSpots, validateSnapshot } from './model.js';
+import { GUIDES, GUIDES_CHECKED_ON, KINDS, MANNERS } from './spot-guides.js';
+import { THEMES, selectSpots, validateSnapshot } from './model.js';
+const NAGAYA_ID='407e3a043cef81b5b765ed86e8b9b6e3';
 const $=id=>document.getElementById(id);
 const state={data:null,selected:null,map:null,markers:new Map(),tiles:null,view:'map',location:null,locationCircle:null,locationRequest:0,loading:false,tileFailed:false};
 function node(tag,text,className) { const el=document.createElement(tag); if(text!==undefined)el.textContent=text; if(className)el.className=className; return el; }
@@ -11,12 +13,32 @@ function pinLabel(spot){
   const m=/^(\d{1,2}|[A-N])(?:\s*\/.*)?$/.exec(spot.symbol);
   return m?m[1]:'周';
 }
-function locationLabel(spot){
-  const owner=ownerAddressPointFor(spot);if(owner)return owner.label;
-  const research=researchPointFor(spot);if(research)return '座標確認済み（施設の代表位置）';
-  const pending=pendingResearchFor(spot);if(pending)return pending.state==='candidate'?'座標未確定（候補あり・確認待ち）':'座標未確定（場所を確認中）';
-  return STATUSES[spot.coordinateStatus];
+// Straight-line distance from the nagaya (the map's starting point), shown so visitors can judge a detour.
+function metersFromNagaya(spot){
+  const base=OWNER_ADDRESS_POINTS[NAGAYA_ID]?.coordinates,c=spot.coordinates;
+  if(!base||!c)return null;
+  const r=Math.PI/180,h=Math.sin((c.lat-base.lat)*r/2)**2+Math.cos(base.lat*r)*Math.cos(c.lat*r)*Math.sin((c.lng-base.lng)*r/2)**2;
+  return 12742000*Math.asin(Math.sqrt(h));
 }
+function fromNagaya(spot){
+  const m=metersFromNagaya(spot);if(m===null||spot.id===NAGAYA_ID)return '';
+  return '長屋から直線 約'+(m<1000?`${Math.max(50,Math.round(m/50)*50)}m`:`${(m/1000).toFixed(1)}km`);
+}
+// List order for someone leaving the nagaya: the nagaya, its own 百人町 streets, then nearest first.
+// The 白壁・主税・橦木 district (no single point) goes just before its first building.
+const HYAKUNINCHO_AREA='407e3a043cef8178b6c6fc6de1193c6b',SHIRAKABE_AREA='407e3a043cef81908bfbec8cb6bf1a75';
+function walkOrder(spots){
+  const rank=s=>s.id===NAGAYA_ID?-2:s.id===HYAKUNINCHO_AREA?-1:metersFromNagaya(s)??Infinity;
+  const sorted=spots.filter(s=>s.id!==SHIRAKABE_AREA).sort((a,b)=>rank(a)-rank(b));
+  const district=spots.find(s=>s.id===SHIRAKABE_AREA);
+  if(district){const i=sorted.findIndex(s=>s.area===district.area);sorted.splice(i<0?sorted.length:i,0,district);}
+  return sorted;
+}
+function addressFor(spot){
+  const a=(ownerAddressPointFor(spot)??researchPointFor(spot))?.address??'';
+  return /^(愛知県)?名古屋市/.test(a)?a:'';
+}
+function link(text,href,className){const a=node('a',text,className);a.href=href;a.target='_blank';a.rel='noopener noreferrer';return a;}
 function visibleSpots(){return state.data?selectSpots(state.data.spots,$('theme').value,$('search').value):[];}
 function view(mode,focus=false){
   state.view=mode; document.querySelector('.explorer').dataset.view=mode;
@@ -25,25 +47,26 @@ function view(mode,focus=false){
 }
 function mapMessage(){
   if(!state.data||!state.map)return;
-  if(state.tileFailed){$('map-status').textContent='背景地図を読み込めませんでした。一覧・詳細カードは引き続き使えます。';return;}
-  const visible=visibleSpots(),count=visible.filter(s=>s.coordinateStatus==='verified').length;
-  $('map-status').textContent=count?`絞り込み中の地点・住所参考点 ${count} 件をピン表示しています。`:'この絞り込みに座標確認済みの地点はありません。未確定の場所は一覧から読めます。';
+  if(state.tileFailed){$('map-status').textContent='背景地図を読み込めませんでした。ピンと一覧はそのまま使えます。';return;}
+  const count=visibleSpots().filter(s=>s.coordinateStatus==='verified').length;
+  $('map-status').textContent=count?`${count} か所を地図に表示しています。ピンをタップすると案内が開きます。`:'この条件の場所は地図にありません。一覧から読めます。';
 }
 function render(){
   const visible=visibleSpots(),all=state.data.spots;
-  $('counts').textContent=`表示 ${visible.length} / 全 ${all.length} 件 · ピン ${visible.filter(s=>s.coordinateStatus==='verified').length} 件`;
-  const totalPins=all.filter(s=>s.coordinateStatus==='verified').length;
-  const addressCount=all.filter(s=>ownerAddressPointFor(s)).length,researchCount=all.filter(s=>researchPointFor(s)).length,areaCount=all.filter(s=>s.coordinateStatus==='area').length;
-  $('data-note').textContent=`地図に表示できる地点 ${totalPins} 件（調べて確かめた施設の代表位置 ${researchCount} 件・本人確認済み住所参考点 ${addressCount} 件）／座標未確定 ${all.length-totalPins-areaCount} 件・区域 ${areaCount} 件。未確定の地点も一覧に残しています。`;
+  $('counts').textContent=visible.length===all.length?`${all.length} か所`:`${visible.length} か所（全 ${all.length} か所）`;
   const fragment=document.createDocumentFragment();
-  for(const spot of visible){
+  for(const spot of walkOrder(visible)){
+    const guide=GUIDES[spot.id];
     const button=node('button',undefined,'spot');button.type='button';button.dataset.spotId=spot.id;
     button.setAttribute('aria-haspopup','dialog');button.setAttribute('aria-controls','detail');button.setAttribute('aria-current',String(spot.id===state.selected));
     const top=node('div',undefined,'spot-top');
     if(spot.coordinateStatus==='verified'){const badge=node('span',pinLabel(spot),'pin-badge');badge.title='地図のピン '+pinLabel(spot);badge.setAttribute('aria-label','地図のピン '+pinLabel(spot));top.append(badge);}
     top.append(node('span',spot.theme,'theme'),node('span',spot.area));
-    const bottom=node('div',undefined,'spot-bottom');bottom.append(node('span',locationLabel(spot),`status ${spot.coordinateStatus}`),node('span','物語を読む ↗'));
-    button.append(top,node('h3',spot.name),node('p',spot.description,'spot-description'),bottom);
+    const bottom=node('div',undefined,'spot-bottom'),meta=node('span',undefined,'spot-meta');
+    if(guide)meta.append(node('span',KINDS[guide.kind],`kind kind-${guide.kind}`));
+    const distance=fromNagaya(spot);if(distance)meta.append(node('span',distance,'distance'));
+    bottom.append(meta,node('span','くわしく ›','more'));
+    button.append(top,node('h3',spot.name),node('p',guide?.lead??spot.description,'spot-description'),bottom);
     button.addEventListener('click',()=>select(spot.id,'list'));
     fragment.append(button);
   }
@@ -58,37 +81,35 @@ function markSelection(){
 function select(id,origin){
   const spot=state.data?.spots.find(s=>s.id===id);if(!spot)return;
   state.selected=id;markSelection();
+  const guide=GUIDES[spot.id];
   const title=node('h2',spot.name);title.id='detail-title';
-  const tags=node('p',`${spot.theme} · ${spot.area}`,'detail-tags');
-  const facts=node('div',undefined,'detail-facts');
-  const ownerPoint=ownerAddressPointFor(spot),researchPoint=researchPointFor(spot),pending=pendingResearchFor(spot);
-  facts.append(node('p',`場所：${locationLabel(spot)}${spot.coordinateStatus==='verified'?`（地図のピン ${pinLabel(spot)}）`:''}`),node('p',`掲載区分：${spot.section}${spot.symbol?' · '+spot.symbol:''}`),node('p',`訪問状況：${spot.visitStatus}`));
-  if(ownerPoint)facts.append(node('p',`住所：${ownerPoint.address}`),node('p',ownerPoint.note));
-  if(researchPoint){
-    facts.append(node('p',`所在地：${researchPoint.address}`),node('p',`座標の根拠：${researchPoint.basis}。入口の位置ではありません。（確認日 ${researchPoint.checkedOn}）`));
-    if(researchPoint.note)facts.append(node('p',researchPoint.note));
-  }
-  if(pending)facts.append(node('p',`座標の確認状況：${pending.note}（確認日 ${pending.checkedOn}）`));
-  if(spot.missing.length){facts.append(node('p','これから確かめること'));const ul=node('ul');spot.missing.forEach(s=>ul.append(node('li',s)));facts.append(ul);}
+  const tags=node('p',[spot.theme,spot.area,guide&&KINDS[guide.kind]].filter(Boolean).join(' · '),'detail-tags');
   const content=[title,tags];
   const artwork=Object.hasOwn(ARTWORKS,spot.id)?ARTWORKS[spot.id]:null;
   for(const item of artwork?[artwork,...(artwork.additional??[])]:[]){
     const figure=node('figure',undefined,'detail-artwork');
     const img=node('img');img.src=item.src;img.alt=item.alt;img.width=item.width;img.height=item.height;img.decoding='async';
     const caption=node('figcaption',item.caption);
-    const note=node('p',item.note,'artwork-note');
-    img.addEventListener('error',()=>{img.hidden=true;caption.textContent='イラストを読み込めませんでした。地点の説明は引き続き読めます。';},{once:true});
-    figure.append(img,caption,note);content.push(figure);
+    img.addEventListener('error',()=>{img.hidden=true;caption.textContent='イラストを読み込めませんでした。';},{once:true});
+    figure.append(img,caption);content.push(figure);
   }
-  content.push(node('p',spot.description,'detail-description'),facts);
-  if(spot.sourceUrl){const a=node('a','紹介の一次出典を読む ↗','detail-source');a.href=spot.sourceUrl;a.target='_blank';a.rel='noopener noreferrer';content.push(a);}
-  if(researchPoint&&researchPoint.officialUrl!==spot.sourceUrl){const a=node('a','所在地の出典を読む ↗','detail-source');a.href=researchPoint.officialUrl;a.target='_blank';a.rel='noopener noreferrer';content.push(a);}
+  content.push(node('p',guide?.lead??spot.description,'detail-description'));
+  const facts=node('dl','','detail-facts'),fact=(k,v)=>{if(v)facts.append(node('dt',k),node('dd',v));};
+  fact('住所',addressFor(spot));fact('開館時間',guide?.hours);fact('休館日',guide?.closed);fact('料金',guide?.fee);fact('ひとこと',guide?.extra);fact('距離',fromNagaya(spot));
+  if(facts.children.length)content.push(facts);
+  if(guide?.hours||guide?.closed||guide?.fee)content.push(node('p',`開館時間・料金は${GUIDES_CHECKED_ON.replace(/^(\d+)-0?(\d+)-0?(\d+)$/,'$1年$2月$3日')}に公式情報で確かめたものです。お出かけ前に公式サイトをご確認ください。`,'detail-note'));
+  if(guide&&MANNERS[guide.kind])content.push(node('p',MANNERS[guide.kind],'detail-manners'));
+  const actions=node('div',undefined,'detail-actions');
   if(spot.coordinateStatus==='verified'&&state.map){
-    const show=node('button',ownerPoint?'この住所参考点を地図で見る':'この地点を地図で見る','detail-map');show.type='button';show.addEventListener('click',()=>{$('detail').close();view('map');
+    const show=node('button','地図で見る','detail-map');show.type='button';show.addEventListener('click',()=>{$('detail').close();view('map');
       // On phones the map panel was hidden (display:none) until now: size the map first, then jump without a pan animation,
       // otherwise a short pan between neighbouring pins is computed against a zero-size map and the pin lands off-centre.
-      requestAnimationFrame(()=>{state.map.invalidateSize({pan:false});state.map.setView([spot.coordinates.lat,spot.coordinates.lng],18,{animate:false});$('map-panel').scrollIntoView({block:'start'});state.markers.get(id)?.getElement()?.focus({preventScroll:true});});});content.push(show);
+      requestAnimationFrame(()=>{state.map.invalidateSize({pan:false});state.map.setView([spot.coordinates.lat,spot.coordinates.lng],18,{animate:false});$('map-panel').scrollIntoView({block:'start'});state.markers.get(id)?.getElement()?.focus({preventScroll:true});});});actions.append(show);
   }
+  if(spot.coordinates)actions.append(link('Googleマップで道順（徒歩） ↗',`https://www.google.com/maps/dir/?api=1&destination=${spot.coordinates.lat},${spot.coordinates.lng}&travelmode=walking`,'detail-route'));
+  if(guide?.official)actions.append(link(`${guide.official.label} ↗`,guide.official.url,'detail-official'));
+  if(actions.children.length)content.push(actions);
+  if(guide?.source){const p=node('p','紹介文の参考：','detail-source');p.append(link(guide.source.label,guide.source.url));content.push(p);}
   $('detail-content').replaceChildren(...content);
   if(origin==='pin')document.querySelector(`[data-spot-id="${id}"]`)?.scrollIntoView({block:'nearest'});
   if(!$('detail').open)$('detail').showModal();
@@ -100,7 +121,7 @@ function renderMarkers(spots){
   state.markers.forEach(marker=>marker.remove());state.markers.clear();
   for(const spot of spots.filter(s=>s.coordinateStatus==='verified')){
     const html=node('div',undefined,'pin-dot');html.append(node('span',pinLabel(spot)));
-    const marker=L.marker([spot.coordinates.lat,spot.coordinates.lng],{icon:L.divIcon({className:'spot-pin',html,iconSize:[44,44],iconAnchor:[22,42]}),title:spot.name+(ownerAddressPointFor(spot)?'（本人確認済み住所参考点）':''),alt:spot.name,keyboard:true}).addTo(state.map);
+    const marker=L.marker([spot.coordinates.lat,spot.coordinates.lng],{icon:L.divIcon({className:'spot-pin',html,iconSize:[44,44],iconAnchor:[22,42]}),title:spot.name,alt:spot.name,keyboard:true}).addTo(state.map);
     marker.on('click',()=>select(spot.id,'pin'));marker.getElement().dataset.spotId=spot.id;marker.getElement().setAttribute('aria-label',`${pinLabel(spot)}：${spot.name}の詳細を開く`);marker.getElement().setAttribute('aria-haspopup','dialog');marker.getElement().setAttribute('aria-controls','detail');state.markers.set(spot.id,marker);
   }
   markSelection();
@@ -117,14 +138,14 @@ function initMap(){
     zoom.querySelector('.leaflet-control-zoom-in').setAttribute('aria-label','地図を拡大');zoom.querySelector('.leaflet-control-zoom-out').setAttribute('aria-label','地図を縮小');
     showTiles();
   }catch{
-    $('map').replaceChildren(node('p','地図を準備できませんでした。一覧からすべてのスポットを読めます。'));
+    $('map').replaceChildren(node('p','地図を表示できませんでした。一覧からすべての場所を読めます。'));
     $('locate').disabled=true;$('fit').disabled=true;
-    $('map-status').textContent='地図を利用できません。一覧をお使いください。';
+    $('map-status').textContent='地図を表示できません。一覧をご覧ください。';
   }
 }
 function showTiles(){
   state.tiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
-  state.tiles.on('tileerror',()=>{state.tileFailed=true;$('map-status').textContent='背景地図を読み込めませんでした。一覧・詳細カードは引き続き使えます。';});
+  state.tiles.on('tileerror',()=>{state.tileFailed=true;$('map-status').textContent='背景地図を読み込めませんでした。ピンと一覧はそのまま使えます。';});
   state.tiles.addTo(state.map);
 }
 function fitPins(){
@@ -134,31 +155,31 @@ function fitPins(){
 $('fit').addEventListener('click',fitPins);
 function clearLocation(){
   state.locationRequest++;state.location?.remove();state.locationCircle?.remove();state.location=null;state.locationCircle=null;
-  $('clear-location').hidden=true;$('locate').disabled=false;$('location-status').textContent='現在地を消しました。取得中の結果も表示しません。';
+  $('clear-location').hidden=true;$('locate').disabled=false;$('location-status').textContent='現在地を消しました。';
 }
 $('clear-location').addEventListener('click',clearLocation);
 $('locate').addEventListener('click',()=>{
   if(!state.map)return;
-  if(!navigator.geolocation){$('location-status').textContent='このブラウザでは現在地を取得できません。一覧と地図は使えます。';return;}
-  const request=++state.locationRequest;$('locate').disabled=true;$('clear-location').hidden=false;$('location-status').textContent='現在地の許可を確認しています。取り消しても一覧と地図は使えます。';
+  if(!navigator.geolocation){$('location-status').textContent='このブラウザでは現在地を使えません。';return;}
+  const request=++state.locationRequest;$('locate').disabled=true;$('clear-location').hidden=false;$('location-status').textContent='現在地を確認しています…';
   navigator.geolocation.getCurrentPosition(position=>{
     if(request!==state.locationRequest)return;
     $('locate').disabled=false;
     const {latitude:lat,longitude:lng,accuracy}=position.coords;
-    if(!Number.isFinite(lat)||!Number.isFinite(lng)||Math.abs(lat)>90||Math.abs(lng)>180){$('location-status').textContent='現在地を確認できませんでした。通常の表示を続けます。';return;}
+    if(!Number.isFinite(lat)||!Number.isFinite(lng)||Math.abs(lat)>90||Math.abs(lng)>180){$('location-status').textContent='現在地を取得できませんでした。';return;}
     state.location?.remove();state.locationCircle?.remove();
     state.location=L.circleMarker([lat,lng],{radius:8,color:'#fffefa',weight:3,fillColor:'#286fc0',fillOpacity:1}).addTo(state.map).bindTooltip('現在地');
     if(Number.isFinite(accuracy)&&accuracy>=0)state.locationCircle=L.circle([lat,lng],{radius:Math.min(accuracy,10000),color:'#286fc0',weight:1,fillOpacity:.08,interactive:false}).addTo(state.map);
     // Never center or zoom to the device position: tile requests must not encode it.
-    $('location-status').textContent=state.map.getBounds().contains([lat,lng])?'現在地を青い丸で表示しました。精度は周囲の円が目安です。':'現在地は表示中の地図の範囲外です。現在地への自動移動はしません。';
+    $('location-status').textContent=state.map.getBounds().contains([lat,lng])?'現在地を青い丸で表示しました（まわりの円は誤差の目安）。':'現在地は、いま表示している地図の外にあります。';
   },error=>{
     if(request!==state.locationRequest)return;
     $('locate').disabled=false;$('clear-location').hidden=!state.location;
-    $('location-status').textContent=error.code===1?'現在地の利用は許可されませんでした。一覧と地図はそのまま使えます。':'現在地を取得できませんでした。一覧と地図はそのまま使えます。';
+    $('location-status').textContent=error.code===1?'現在地の利用が許可されませんでした。':'現在地を取得できませんでした。';
   },{enableHighAccuracy:false,timeout:10000,maximumAge:0});
 });
 async function reload(){
-  if(state.loading)return;state.loading=true;$('reload').disabled=true;$('load-status').textContent='スポットを読み込んでいます。';
+  if(state.loading)return;state.loading=true;$('reload').disabled=true;$('load-status').classList.remove('quiet');$('load-status').textContent='寄り道先を読み込んでいます。';
   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),8000);
   try{
     const response=await fetch('./spots.json',{cache:'no-store',signal:controller.signal,credentials:'omit'});
@@ -172,9 +193,10 @@ async function reload(){
     state.data=data;render();
     if(first)fitPins();
     if(keepDetail&&state.selected)select(state.selected,'reload');
-    $('load-status').textContent=`${data.spots.length} 件を読み込みました。取得：${new Date(data.retrievedAt).toLocaleString('ja-JP',{timeZone:'Asia/Tokyo'})} JST · ${data.inputVersion}`;
+    // Success is announced to screen readers only; the retry button appears only after a failure.
+    $('load-status').textContent=`${data.spots.length} か所を読み込みました。`;$('load-status').classList.add('quiet');$('reload').hidden=true;
   }catch{
-    $('load-status').textContent=state.data?'読み直しに失敗しました。前回のデータを引き続き表示しています。':'データを読み込めませんでした。「データを読み直す」から再試行できます。';
+    $('load-status').textContent=state.data?'読み込み直しに失敗しました。前の内容のまま表示しています。':'読み込めませんでした。電波のよい場所で「もう一度読み込む」を押してください。';$('reload').hidden=false;
   }finally{clearTimeout(timer);state.loading=false;$('reload').disabled=false;}
 }
 for(const theme of THEMES){const option=node('option',theme);option.value=theme;$('theme').append(option);}

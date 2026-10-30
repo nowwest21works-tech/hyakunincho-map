@@ -2,13 +2,13 @@
  "formatVersion": 1,
  "checkedOn": "2026-10-29",
  "canonical": "Notion 勝手に百人町マップスポットDB（collection://16c7c12b-396e-4de5-b55a-36fe7c44c07b）。この調査ではNotionを書き換えていない。",
- "rule": "ピンを出す条件：(1)公式・公的資料で施設を同定、(2)OpenStreetMapの名前付き地物と、独立した別系統（Googleの施設ピン）の位置が一致（建物は50m以内、徳川園・名古屋城のような広い施設は100m以内）、(3)公式拡大図の配置と矛盾しない。ピン座標はOSMの値を使う（Google・Aichi Now・国土地理院は照合のみ）。Aichi NowはGoogleと同系統として数える。国土地理院の住所検索は白壁・主税町・橦木町・筒井町では丁目代表点しか返さないため位置照合の根拠にしない。入口を確認できた地点は0件で、ピンはすべて施設の代表位置。",
+ "rule": "ピンを出す条件：(1)公式・公的資料で施設を同定、(2)OpenStreetMapの名前付き地物と、独立した別系統（Googleの施設ピン）の位置が一致（建物は50m以内、徳川園・名古屋城のような広い施設は100m以内）、(3)公式拡大図の配置と矛盾しない。ピン座標はOSMの値を使う（Google・Aichi Now・国土地理院は照合のみ）。Aichi NowはGoogleと同系統として数える。国土地理院の住所検索は白壁・主税町・橦木町・筒井町では丁目代表点しか返さないため位置照合の根拠にしない。入口を確認できた地点は0件で、ピンはすべて施設の代表位置。例外：status が owner-confirmed の8件（2026-10-30）は、今西さんが候補の位置を確認したため、候補の値（主にGoogleの施設ピン）をそのままピンにする。",
  "spots": [
   {
    "id": "407e3a043cef810091d7cee0bd906bb8",
    "name": "金城学院高等学校榮光館",
-   "status": "candidate",
-   "precision": null,
+   "status": "owner-confirmed",
+   "precision": "representative",
    "official": {
     "address": "名古屋市東区白壁四丁目64番地",
     "sources": [
@@ -32,9 +32,19 @@
     }
    ],
    "note": "OSMは学校敷地のみで、榮光館の建物は未登録。学校敷地内のため立入・撮影は学校の条件次第。",
-   "question": "榮光館の位置はこの候補で合っていますか。学校敷地内の建物にピンを出してよいですか（校門を目印にする案もあります）。",
+   "question": null,
    "checkedOn": "2026-10-29",
-   "pin": null,
+   "ownerConfirmation": {
+    "by": "今西浩二",
+    "on": "2026-10-30",
+    "answer": "位置は正しい。名古屋市が紹介しGoogleマップにも表示されているためピン表示可（学校敷地内：道路から眺める）"
+   },
+   "pin": {
+    "lat": 35.1829944,
+    "lng": 136.9184552,
+    "from": "Googleマップの施設ピン「榮光館」（住所表示：白壁4丁目64-64）",
+    "url": null
+   },
    "candidateSpreadMeters": 31
   },
   {
@@ -423,8 +433,8 @@
   {
    "id": "407e3a043cef812e9f90ece7c12e8d83",
    "name": "伊藤家住宅（東区・文化のみち）",
-   "status": "candidate",
-   "precision": null,
+   "status": "owner-confirmed",
+   "precision": "representative",
    "official": {
     "address": "名古屋市東区橦木町2丁目9番地",
     "sources": [
@@ -441,9 +451,19 @@
     }
    ],
    "note": "西区那古野の同名「伊藤家住宅」ではないことを市の所在地（東区橦木町）で確認済み。OSMに登録なし。個人宅。",
-   "question": "位置はこの候補で合っていますか。個人宅としてピンを出してよいですか。",
+   "question": null,
    "checkedOn": "2026-10-29",
-   "pin": null
+   "ownerConfirmation": {
+    "by": "今西浩二",
+    "on": "2026-10-30",
+    "answer": "位置は正しい。名古屋市が紹介しGoogleマップにも表示されているためピン表示可（個人宅：道路から眺める）"
+   },
+   "pin": {
+    "lat": 35.1801123,
+    "lng": 136.9145301,
+    "from": "Googleマップの施設ピン「伊藤家住宅（白壁・主税・橦木の町並み）」（住所表示：橦木町2丁目9）",
+    "url": null
+   }
   },
   {
    "id": "407e3a043cef8139b06ac86f7a4d4637",
@@ -663,8 +683,8 @@
   {
    "id": "407e3a043cef8155acf0f17e950a4f89",
    "name": "拡大図J｜名称要照合",
-   "status": "unresolved",
-   "precision": null,
+   "status": "owner-confirmed",
+   "precision": "representative",
    "official": {
     "address": "公式拡大図J。凡例は「旧櫻明荘門」と読める（公式画像800px版の読み取り。正式表記は未確認）。長屋筋の東、白壁町筋と主税町筋の間",
     "sources": [
@@ -689,9 +709,20 @@
     }
    ],
    "note": "近くに「櫻明荘」を名に持つ建物があるが、門そのものの位置・現存は確認できていない。",
-   "question": "Jは「旧櫻明荘門」で合っていますか。門がどの通りに面しているか、今も残っているかをご存じですか。",
+   "question": null,
    "checkedOn": "2026-10-29",
-   "pin": null,
+   "ownerConfirmation": {
+    "by": "今西浩二",
+    "on": "2026-10-30",
+    "answer": "名称は「旧櫻明荘門」に決定。位置はGoogleの「白壁櫻明荘」の点。今西さんが現地で確認済み"
+   },
+   "displayName": "旧櫻明荘門",
+   "pin": {
+    "lat": 35.1822863,
+    "lng": 136.9173414,
+    "from": "Googleマップの施設ピン「白壁櫻明荘」（住所表示：—）",
+    "url": null
+   },
    "candidateSpreadMeters": 65
   },
   {
@@ -764,8 +795,8 @@
   {
    "id": "407e3a043cef816da2d8f40fbbc4b8bf",
    "name": "旧料亭・樟",
-   "status": "candidate",
-   "precision": null,
+   "status": "owner-confirmed",
+   "precision": "representative",
    "official": {
     "address": "名古屋市東区白壁四丁目92番地（白壁町筋の西端）",
     "sources": [
@@ -782,9 +813,19 @@
     }
    ],
    "note": "Googleマップでは名前で見つからず、独立した2系統目がない。",
-   "question": "OSMの「旧料亭 樟」の点で合っていますか。",
+   "question": null,
    "checkedOn": "2026-10-29",
-   "pin": null
+   "ownerConfirmation": {
+    "by": "今西浩二",
+    "on": "2026-10-30",
+    "answer": "候補位置で正しい（ピン化可）"
+   },
+   "pin": {
+    "lat": 35.1821,
+    "lng": 136.91431,
+    "from": "OSM node/10248417381「旧料亭　樟」",
+    "url": "https://www.openstreetmap.org/node/10248417381"
+   }
   },
   {
    "id": "407e3a043cef816e8b2ded15bf356162",
@@ -862,8 +903,8 @@
   {
    "id": "407e3a043cef817f99eecc86af783a9e",
    "name": "自然院",
-   "status": "candidate",
-   "precision": null,
+   "status": "owner-confirmed",
+   "precision": "representative",
    "official": {
     "address": "名古屋市東区筒井町4-13",
     "sources": [
@@ -887,9 +928,19 @@
     }
    ],
    "note": "OSMに名前付きの登録がない。国土地理院の住所検索はこの地区では丁目までしか絞れない。",
-   "question": "Googleの「黒谷自然院」ピンの位置で合っていますか。",
+   "question": null,
    "checkedOn": "2026-10-29",
-   "pin": null,
+   "ownerConfirmation": {
+    "by": "今西浩二",
+    "on": "2026-10-30",
+    "answer": "候補位置で正しい（ピン化可）"
+   },
+   "pin": {
+    "lat": 35.1771401,
+    "lng": 136.9303067,
+    "from": "Googleマップの施設ピン「寳池山 黒谷自然院」（住所表示：筒井町4丁目13）",
+    "url": null
+   },
    "candidateSpreadMeters": 70
   },
   {
@@ -957,8 +1008,8 @@
   {
    "id": "407e3a043cef819688cdef274924e959",
    "name": "東海学園講堂",
-   "status": "candidate",
-   "precision": null,
+   "status": "owner-confirmed",
+   "precision": "representative",
    "official": {
     "address": "名古屋市東区筒井一丁目202番地の4",
     "sources": [
@@ -975,9 +1026,19 @@
     }
    ],
    "note": "OSMは東海中学校・東海高等学校の校舎のみで、講堂は名前付きで未登録。学校敷地内。",
-   "question": "講堂の位置はこの候補で合っていますか。学校敷地内の建物にピンを出してよいですか。",
+   "question": null,
    "checkedOn": "2026-10-29",
-   "pin": null
+   "ownerConfirmation": {
+    "by": "今西浩二",
+    "on": "2026-10-30",
+    "answer": "位置は正しい。名古屋市が紹介しGoogleマップにも表示されているためピン表示可（学校敷地内：道路から眺める）"
+   },
+   "pin": {
+    "lat": 35.1799418,
+    "lng": 136.9294316,
+    "from": "Googleマップの施設ピン「東海学園大講堂」（住所表示：筒井1丁目2-35）",
+    "url": null
+   }
   },
   {
    "id": "407e3a043cef819ab9abea55c1605d38",
@@ -1094,8 +1155,8 @@
   {
    "id": "407e3a043cef81b48097e3f426f6cc40",
    "name": "主税町長屋門",
-   "status": "candidate",
-   "precision": null,
+   "status": "owner-confirmed",
+   "precision": "representative",
    "official": {
     "address": "番地は公式資料に記載なし（公式拡大図では主税町筋の東端、二葉館の北側）",
     "sources": [
@@ -1113,15 +1174,25 @@
     }
    ],
    "note": "OSMに門そのものの登録がない（近くの案内板「御畳奉行 朝日文左衛門重章 屋敷跡」は約55m離れた別物）。",
-   "question": "Googleの「主税町長屋門」ピンの位置で合っていますか。",
+   "question": null,
    "checkedOn": "2026-10-29",
-   "pin": null
+   "ownerConfirmation": {
+    "by": "今西浩二",
+    "on": "2026-10-30",
+    "answer": "候補位置で正しい（ピン化可）"
+   },
+   "pin": {
+    "lat": 35.181253,
+    "lng": 136.919145,
+    "from": "Googleマップの施設ピン「主税町長屋門」（住所表示：主税町4丁目68）",
+    "url": null
+   }
   },
   {
    "id": "407e3a043cef81b88076e7648b805034",
    "name": "櫻井家住宅",
-   "status": "candidate",
-   "precision": null,
+   "status": "owner-confirmed",
+   "precision": "representative",
    "official": {
     "address": "公式拡大図E（白壁町筋の南側、百花百草とか茂免の間）",
     "sources": [
@@ -1138,9 +1209,19 @@
     }
    ],
    "note": "OSMに登録なし。個人宅のため、位置が合っていてもピン表示の可否は別判断。",
-   "question": "位置はこの候補で合っていますか。個人宅としてピンを出してよいですか。",
+   "question": null,
    "checkedOn": "2026-10-29",
-   "pin": null
+   "ownerConfirmation": {
+    "by": "今西浩二",
+    "on": "2026-10-30",
+    "answer": "位置は正しい。名古屋市が紹介しGoogleマップにも表示されているためピン表示可（個人宅：道路から眺める）"
+   },
+   "pin": {
+    "lat": 35.1820081,
+    "lng": 136.9152503,
+    "from": "Googleマップの施設ピン「櫻井家住宅」（住所表示：白壁4丁目89）",
+    "url": null
+   }
   },
   {
    "id": "407e3a043cef81b8b176fbdbf48ec336",

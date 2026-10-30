@@ -15,7 +15,7 @@ export function applyResearchPoints(data){
   return {...data,spots:data.spots.map(spot=>{
     const point=Object.hasOwn(RESEARCH_POINTS,spot.id)?RESEARCH_POINTS[spot.id]:null;
     if(!point||spot.coordinates!==null||spot.coordinateStatus!=='unconfirmed'||spot.section==='公式町並み'||AREA_IDS.has(spot.id)||!okPoint(point))return spot;
-    return {...spot,coordinateStatus:'verified',coordinates:{...point.coordinates},missing:[...spot.missing.filter(s=>s!=='座標と確認根拠'),'入口・公道からの動線の現地確認']};
+    return {...spot,...(point.displayName?{name:point.displayName}:{}),coordinateStatus:'verified',coordinates:{...point.coordinates},missing:[...spot.missing.filter(s=>s!=='座標と確認根拠'),'入口・公道からの動線の現地確認']};
   })};
 }
 export function researchPointFor(spot){

@@ -30,5 +30,10 @@ export const RESEARCH_POINTS=Object.freeze({
   '407e3a043cef81d0aefbe8c3648653ed':Object.freeze({coordinates:Object.freeze({lat:35.1817119,lng:136.9310909}),precision:'representative',label:'施設の代表位置',address:"名古屋市東区新出来1-5-16（宗教法人名簿の表記は「覺音寺」）",basis:"OpenStreetMapの地物とGoogleマップの施設ピンが約6mで一致",note:"",officialUrl:"https://www.pref.aichi.jp/uploaded/attachment/607301.pdf",checkedOn:'2026-10-29'}),
   '407e3a043cef81d59e19fe01b74ad602':Object.freeze({coordinates:Object.freeze({lat:35.18054,lng:136.9141621}),precision:'representative',label:'施設の代表位置',address:"名古屋市東区主税町3丁目33番地",basis:"OpenStreetMapの地物とGoogleマップの施設ピンが約27mで一致",note:"礼拝・見学のルールは施設の案内に従う。",officialUrl:"https://www.city.nagoya.jp/kankou/kankouinfo/1013766/1013962/1034451/1013981.html",checkedOn:'2026-10-29'}),
 });
+// Areas are drawn apart from the pins: the district as its OSM shape, 百人町 as the OSM quarter point. (c) OpenStreetMap contributors, ODbL.
+export const AREA_DISPLAY=Object.freeze({
+  '407e3a043cef8178b6c6fc6de1193c6b':Object.freeze({type:'point',coordinates:Object.freeze({lat:35.179602,lng:136.93315}),checkedOn:'2026-10-30'}),
+  '407e3a043cef81908bfbec8cb6bf1a75':Object.freeze({type:'polygon',ring:Object.freeze([Object.freeze([35.1834821,136.9191765]),Object.freeze([35.1834076,136.9179677]),Object.freeze([35.1832785,136.9179738]),Object.freeze([35.1832636,136.9178523]),Object.freeze([35.1829749,136.917894]),Object.freeze([35.1827486,136.9137713]),Object.freeze([35.1815901,136.9139069]),Object.freeze([35.1798326,136.9141127]),Object.freeze([35.1801267,136.91828]),Object.freeze([35.1834821,136.9191765])]),areaHa:14.39,checkedOn:'2026-10-30'}),
+});
 export const RESEARCH_PENDING=Object.freeze({
 });

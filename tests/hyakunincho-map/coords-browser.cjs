@@ -59,6 +59,14 @@ const mod=f=>import(pathToFileURL(path.resolve('public/hyakunincho-map',f)).href
    check(`${width}: ${id} pending detail shows reason/date and no map button`,t.includes('座標の確認状況：')&&t.includes('確認日 '+RESEARCH_CHECKED_ON)&&await page.locator('.detail-map').count()===0);await page.keyboard.press('Escape');
   }
   for(const id of areaIds)check(`${width}: area ${id} has no pin/badge`,await page.locator(`.spot-pin[data-spot-id="${id}"]`).count()===0&&(await page.locator(`.spot[data-spot-id="${id}"]`).innerText()).includes('町並み'));
+  // Areas (2026-10-30): the district is drawn as the OSM way/653386294 shape, 百人町 as a name label on the quarter point.
+  check(`${width}: district shape and 百人町 label drawn, not counted as pins`,await page.locator('path.area-shape[data-spot-id="407e3a043cef81908bfbec8cb6bf1a75"]').count()===1&&await page.locator('.area-pin[data-spot-id="407e3a043cef8178b6c6fc6de1193c6b"]').count()===1&&await page.locator('.spot-pin').count()===28);
+  for(const id of areaIds){
+   await page.locator(`.spot[data-spot-id="${id}"]`).click();await page.waitForFunction(()=>document.querySelector('#detail').open);
+   await page.click('.detail-map');await page.waitForTimeout(300);
+   check(`${width}: area ${id} 地図で見る shows it inside the map and selected`,await page.locator(`[data-spot-id="${id}"].selected:is(path,.area-pin)`).evaluate(e=>{const r=e.getBoundingClientRect(),m=document.querySelector('#map').getBoundingClientRect();const cx=r.left+r.width/2,cy=r.top+r.height/2;return cx>m.left&&cx<m.right&&cy>m.top&&cy<m.bottom;}));
+   if(mobile)await page.click('#show-list');
+  }
   // Name <-> illustration correspondence is unchanged for all 13 illustrated cards.
   for(const [id,a] of Object.entries(ARTWORKS)){
    await page.locator(`.spot[data-spot-id="${id}"]`).click();await page.waitForFunction(()=>document.querySelector('.detail-artwork img')?.naturalWidth>0);

@@ -59,6 +59,12 @@ const mod=f=>import(pathToFileURL(path.resolve('public/hyakunincho-map',f)).href
    check(`${width}: ${id} pending detail shows reason/date and no map button`,t.includes('座標の確認状況：')&&t.includes('確認日 '+RESEARCH_CHECKED_ON)&&await page.locator('.detail-map').count()===0);await page.keyboard.press('Escape');
   }
   for(const id of areaIds)check(`${width}: area ${id} has no pin/badge`,await page.locator(`.spot-pin[data-spot-id="${id}"]`).count()===0&&(await page.locator(`.spot[data-spot-id="${id}"]`).innerText()).includes('町並み'));
+  // まほブラの散策記録 (2026-10-31): the page section lists all four, the 二葉館 card carries its cover, video and article.
+  check(`${width}: journal section lists 4 walks with 4 Instagram and 2 note links`,await page.locator('#journal-list .story').count()===4&&await page.locator('#journal-list a.story-instagram').count()===4&&await page.locator('#journal-list a.story-note').count()===2);
+  await page.locator('.spot[data-spot-id="407e3a043cef8157869cceda5fc2cff1"]').click();await page.waitForFunction(()=>document.querySelector('#detail').open);
+  check(`${width}: 二葉館 card shows the journal cover with video and article links`,await page.locator('#detail .story img[src="./journal/no07-futabakan.webp"]').count()===1&&(await page.locator('#detail a.story-instagram').getAttribute('href'))==='https://www.instagram.com/reel/DUnnfSkiSjB/'&&(await page.locator('#detail a.story-note').getAttribute('href'))==='https://note.com/mahoroba_office/n/n1e256780b6b3');
+  await page.keyboard.press('Escape');
+  check(`${width}: cards with a walk are marked`,await page.locator('.spot .story-mark').count()===3);
   // Areas (2026-10-30): the district is drawn as the OSM way/653386294 shape, 百人町 as a name label on the quarter point.
   check(`${width}: district shape and 百人町 label drawn, not counted as pins`,await page.locator('path.area-shape[data-spot-id="407e3a043cef81908bfbec8cb6bf1a75"]').count()===1&&await page.locator('.area-pin[data-spot-id="407e3a043cef8178b6c6fc6de1193c6b"]').count()===1&&await page.locator('.spot-pin').count()===28);
   for(const id of areaIds){

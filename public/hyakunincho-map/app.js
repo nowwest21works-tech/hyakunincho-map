@@ -3,6 +3,7 @@ import { applyResearchPoints, researchPointFor } from './coordinate-research.js'
 import { AREA_DISPLAY } from './coordinate-research-data.js';
 import { ARTWORKS } from './artworks.js';
 import { GUIDES, GUIDES_CHECKED_ON, KINDS, MANNERS } from './spot-guides.js';
+import { STORIES, storiesFor } from './stories.js';
 import { THEMES, selectSpots, validateSnapshot } from './model.js';
 const NAGAYA_ID='407e3a043cef81b5b765ed86e8b9b6e3',NEAR_METERS=5000;
 const $=id=>document.getElementById(id);
@@ -43,6 +44,19 @@ function addressFor(spot){
   return /^(愛知県)?名古屋市/.test(a)?a:'';
 }
 function link(text,href,className){const a=node('a',text,className);a.href=href;a.target='_blank';a.rel='noopener noreferrer';return a;}
+// まほブラの散策記録: journal cover (if any) + Instagram reel + note article, shown on the card and in the page's own section.
+function storyBlock(story,heading){
+  const box=node('article',undefined,'story');box.dataset.storyId=story.id;
+  if(heading)box.append(node('p',heading,'story-heading'));
+  if(story.cover){const img=node('img');Object.assign(img,{src:story.cover.src,alt:story.cover.alt,width:story.cover.width,height:story.cover.height,loading:'lazy',decoding:'async'});img.addEventListener('error',()=>{img.hidden=true;},{once:true});box.append(img);}
+  if(story.issue)box.append(node('p',story.issue,'story-issue'));
+  box.append(node('h3',story.title,'story-title'),node('p',story.place,'story-place'));
+  const links=node('div',undefined,'story-links');
+  if(story.instagram)links.append(link('Instagramで動画を見る ↗',story.instagram,'story-instagram'));
+  if(story.note)links.append(link('noteで記事を読む ↗',story.note,'story-note'));
+  box.append(links);return box;
+}
+function renderJournal(){$('journal-list').replaceChildren(...STORIES.map(s=>storyBlock(s)));}
 function visibleSpots(){return state.data?selectSpots(state.data.spots,$('theme').value,$('search').value):[];}
 function view(mode,focus=false){
   state.view=mode; document.querySelector('.explorer').dataset.view=mode;
@@ -68,6 +82,7 @@ function render(){
     top.append(node('span',spot.theme,'theme'),node('span',spot.area));
     const bottom=node('div',undefined,'spot-bottom'),meta=node('span',undefined,'spot-meta');
     if(guide)meta.append(node('span',KINDS[guide.kind],`kind kind-${guide.kind}`));
+    if(storiesFor(spot.id).length)meta.append(node('span','▶ まほブラ','story-mark'));
     const distance=fromNagaya(spot);if(distance)meta.append(node('span',distance,'distance'));
     bottom.append(meta,node('span','くわしく ›','more'));
     button.append(top,node('h3',spot.name),node('p',guide?.lead??spot.description,'spot-description'),bottom);
@@ -117,6 +132,7 @@ function select(id,origin){
     figure.append(img,caption);content.push(figure);
   }
   content.push(node('p',guide?.lead??spot.description,'detail-description'));
+  for(const story of storiesFor(spot.id))content.push(storyBlock(story,'まほろばが歩いてみました'));
   const facts=node('dl','','detail-facts'),fact=(k,v)=>{if(v)facts.append(node('dt',k),node('dd',v));};
   fact('住所',addressFor(spot));fact('開館時間',guide?.hours);fact('休館日',guide?.closed);fact('料金',guide?.fee);fact('ひとこと',guide?.extra);fact('距離',fromNagaya(spot));
   if(facts.children.length)content.push(facts);
@@ -247,4 +263,4 @@ $('detail').addEventListener('close',()=>{
   const selected=state.selected;
   if(selected){const target=state.view==='map'?state.markers.get(selected)?.getElement():document.querySelector(`.spot[data-spot-id="${selected}"]`);target?.focus({preventScroll:true});}
 });
-initMap();reload();
+initMap();renderJournal();reload();

@@ -11,6 +11,7 @@
   - `owner-address-points.js` … 長屋（みんなのまほろ場）の本人確認済み住所点
   - `coordinate-research.js` / `coordinate-research-data.js` … 調査で確定した座標（spots.json に座標が無い行だけに重ねる）
   - `artworks.js` + `artworks/` … 提供イラスト（水彩）とカードの対応。画面は `artworks/*.webp`（幅1600px以下・300KB以下）を使い、原画は `artworks/original/` に保管（公開サイトには載せない）。新しい画像は原画を `original/` に置き、WebPを作って `artworks.js` に `src` と `original` を書く
+  - `stories.js` + `journal/` … まほろばの散策記録（まほブラ）。MAHOROBA JOURNAL の表紙（`journal/*.webp`、原本は `journal/original/` で公開サイトには載せない）、Instagram の動画、note の記事。カード（二葉館・橦木館・徳川園）とページ下の「まほブラで歩いてみた」に出る。URLは共有用の追跡パラメータ（?rpxt= など）を外して書く
   - `spot-guides.js` … カードの案内文・開館情報・公式リンク・出典（公式資料から自分の言葉で要約。案内文は 2026-10-30 に Notion の「紹介文」へ反映済み）
 - `review/coordinate-research-20261029/` … 座標の出典と照合記録（`research.json`、生成スクリプト `build_research.py`、`README.md`、`NEXT-STEPS-20261030.md`）
 - `review/hyakunincho-map/notion-export.json` … データ試験が使うNotion書き出し

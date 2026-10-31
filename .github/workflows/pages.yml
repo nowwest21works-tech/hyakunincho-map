@@ -33,12 +33,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
-      # 水彩画の原画（artworks/original/）はリポジトリに保管するだけで、公開サイトには載せない。
+      # 水彩画の原画（artworks/original/）と表紙の原本（journal/original/）はリポジトリに保管するだけで、公開サイトには載せない。
       - name: 公開する物をまとめる
         run: |
           mkdir _site
           cp -R public/. _site/
-          rm -rf _site/hyakunincho-map/artworks/original
+          rm -rf _site/hyakunincho-map/artworks/original _site/hyakunincho-map/journal/original
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
